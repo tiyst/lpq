@@ -1,0 +1,20 @@
+name: Merge to main
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge-branch:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Merge dev -> main
+        uses: devmasx/merge-branch@master
+        with:
+          message: Dev to main merge
+          type: now
+          from_branch: dev
+          target_branch: main
+          github_token: ${{ github.token }}
