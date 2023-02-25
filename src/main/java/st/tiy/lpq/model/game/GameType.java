@@ -1,0 +1,13 @@
+package st.tiy.lpq.model.game;
+
+public enum GameType {
+	GUESS_DRAFT,
+	GUESS_TEAM_FLAGS,
+	GUESS_CHAMPION,
+	GUESS_ABILITY,
+	GUESS_SKIN,
+	GUESS_PLAYER,
+	GUESS_ITEM,
+	HIGHER_LOWER
+
+}
