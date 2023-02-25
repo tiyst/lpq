@@ -2,10 +2,7 @@ package st.tiy.lpq.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import st.tiy.lpq.model.game.Game;
 import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
@@ -26,12 +23,6 @@ public class GameController {
 		return gameService.addGame(getSessionId(request), gameType, guessType);
 	}
 
-	@PostMapping(path = "/create")
-	public Game createGame(HttpServletRequest request) {
-		return gameService.addGame(getSessionId(request), GameType.GUESS_CHAMPION, GuessType.SPLASH);
-	}
-
-	@PostMapping(path = "/get")
 	public Game getGame(HttpServletRequest request) {
 		return gameService.getGame(getSessionId(request));
 	}
