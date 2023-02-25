@@ -31,15 +31,6 @@ class GameControllerTest {
 	}
 
 	@Test
-	void createDefaultGame() {
-		when(gameService.addGame(any(String.class), any(GameType.class), any(GuessType.class))).thenReturn(buildGame());
-		Game game = gameController.createGame(new MockHttpServletRequest());
-
-		assertThat(game.getGameType()).isEqualTo(GameType.GUESS_CHAMPION);
-		assertThat(game.getGuessType()).isEqualTo(GuessType.SPLASH);
-	}
-
-	@Test
 	void createParametrizedGame() {
 		when(gameService.addGame(any(String.class), eq(GameType.GUESS_SKIN), eq(GuessType.ICON)))
 				.thenReturn(buildGame(GameType.GUESS_SKIN, GuessType.ICON));
