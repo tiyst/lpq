@@ -1,3 +1,10 @@
 server:
   servlet:
     context-path: /api
+
+riot:
+  ddragon:
+    versions: https://ddragon.leagueoflegends.com/api/versions.json
+    champions: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion.json
+    champion: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion/%s.json
+    splash: http://ddragon.leagueoflegends.com/cdn/img/champion/splash/%s_%s.jpg
