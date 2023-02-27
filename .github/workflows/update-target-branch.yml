@@ -13,6 +13,6 @@ jobs:
         uses: actions/checkout@v3
          
       - run: |
-          gh pr edit ${{ github.event.number }} -B develop
+          gh pr edit ${{ github.event.number }} -B dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
