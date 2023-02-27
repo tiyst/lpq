@@ -23,10 +23,6 @@ public class GameController {
 		return gameService.addGame(getSessionId(request), gameType, guessType);
 	}
 
-	public Game getGame(HttpServletRequest request) {
-		return gameService.getGame(getSessionId(request));
-	}
-
 	private static String getSessionId(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 
