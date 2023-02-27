@@ -54,7 +54,7 @@ public class RiotDataController {
 		byte[] splash = riotDataService.getSplash(champion, number);
 
 		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_PNG);
+		headers.setContentType(MediaType.IMAGE_JPEG);
 
 		return new ResponseEntity<>(splash, headers, HttpStatus.OK);
 	}
