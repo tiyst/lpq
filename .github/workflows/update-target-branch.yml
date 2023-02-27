@@ -6,6 +6,7 @@ on:
     
 jobs:
   update_target_branch:
+    permissions: write-all
     name: "Change PR target branch to dev"
     runs-on: ubuntu-latest
     steps:
