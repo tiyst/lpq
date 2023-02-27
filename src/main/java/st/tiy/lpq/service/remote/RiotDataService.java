@@ -80,4 +80,10 @@ public class RiotDataService {
 
 		return Collections.emptyList();
 	}
+
+	public byte[] getSplash(String championName, String skinNumber) {
+		String targetUrl = splashUrl.formatted(championName, skinNumber);
+
+		return restTemplate.getForObject(targetUrl, byte[].class);
+	}
 }
