@@ -1,9 +1,6 @@
 package st.tiy.lpq.controller.remote;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,14 +46,9 @@ public class RiotDataController {
 		return riotDataService.getSkinsForChampion(ddragonVersion, champion);
 	}
 
-	@GetMapping(path = "champions/splash/{champion}/{number}")
-	public ResponseEntity<byte[]> getSplash(@PathVariable String champion, @PathVariable String number) {
-		byte[] splash = riotDataService.getSplash(champion, number);
-
-		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_JPEG);
-
-		return new ResponseEntity<>(splash, headers, HttpStatus.OK);
+	@GetMapping(path = "champions/splash/{champion}/{number}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getSplash(@PathVariable String champion, @PathVariable String number) {
+		return riotDataService.getSplash(champion, number);
 	}
 
 }
