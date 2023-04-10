@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
-import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 
 @Service
 public class RiotDataService {
@@ -51,16 +51,17 @@ public class RiotDataService {
 		                                                          String[].class, (Object) null);
 
 		if (!response.getStatusCode().is2xxSuccessful()) {
-			logger.info("Getting most recent version unsuccessful, returned {}", response.getStatusCode().value());
+			logger.info("Getting most recent version unsuccessful, returned code {}", response.getStatusCode().value());
 			return Optional.empty();
 		}
 
 		String[] body = response.getBody();
-		if (body != null && isNotEmpty(Arrays.asList(body))) {
-				return Optional.ofNullable(body[0]);
+		if (body == null || isEmpty(Arrays.asList(body))) {
+			logger.info("getMostRecentVersion is not present");
+			return Optional.empty();
 		}
 
-		return Optional.empty();
+		return Optional.ofNullable(body[0]);
 	}
 
 	public List<RiotChampion> getChampions(String ddragonVersion) {
