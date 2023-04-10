@@ -40,10 +40,6 @@ class GameControllerTest {
 		assertThat(game.getGuessType()).isEqualTo(GuessType.ICON);
 	}
 
-	static Game buildGame() {
-		return buildGame(GameType.GUESS_CHAMPION, GuessType.SPLASH);
-	}
-
 	static Game buildGame(GameType gameType, GuessType guessType) {
 		return new Game(gameType, guessType);
 	}
