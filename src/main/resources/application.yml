@@ -8,3 +8,7 @@ riot:
     champions: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion.json
     champion: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion/%s.json
     splash: http://ddragon.leagueoflegends.com/cdn/img/champion/splash/%s_%s.jpg
+
+data:
+  update:
+    interval: 0 0 0 */14 * ?
