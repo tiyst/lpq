@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(path = "/riot")
 public class RiotDataController {
 
-	private RiotDataService riotDataService;
+	private final RiotDataService riotDataService;
 
 	public RiotDataController(RiotDataService riotDataService) {
 		this.riotDataService = riotDataService;
@@ -41,14 +41,14 @@ public class RiotDataController {
 		return riotDataService.getChampionNames(ddragonVersion);
 	}
 
-	@GetMapping
+	@GetMapping(path = "champions/skins/{ddragonVersion}/{champion}")
 	public List<Skin> getChampionSkins(@PathVariable String ddragonVersion, @PathVariable String champion) {
 		return riotDataService.getSkinsForChampion(ddragonVersion, champion);
 	}
 
 	@GetMapping(path = "champions/splash/{champion}/{number}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public byte[] getSplash(@PathVariable String champion, @PathVariable String number) {
-		return riotDataService.getSplash(champion, number);
+		return riotDataService.getSplash(champion, number).orElse(null);
 	}
 
 }

@@ -1,5 +1,7 @@
 package st.tiy.lpq.service.remote;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -22,25 +24,36 @@ import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 @Service
 public class RiotDataService {
 
-	@Value("${riot.ddragon.versions}")
-	private String dragonVersionsUrl;
-	@Value("${riot.ddragon.champions}")
-	private String championsUrl;
-	@Value("${riot.ddragon.champion}")
-	private String championUrl;
-	@Value("${riot.ddragon.splash}")
-	private String splashUrl;
+	private final Logger logger = LoggerFactory.getLogger(RiotDataService.class);
+
+	private final String dragonVersionsUrl;
+	private final String championsUrl;
+	private final String championUrl;
+	private final String splashUrl;
 
 	private final RestTemplate restTemplate;
 
-	public RiotDataService(RestTemplate restTemplate) {
+	public RiotDataService(RestTemplate restTemplate,
+	                       @Value("${riot.ddragon.versions}") String dragonVersionsUrl,
+	                       @Value("${riot.ddragon.champions}") String championsUrl,
+	                       @Value("${riot.ddragon.champion}") String championUrl,
+	                       @Value("${riot.ddragon.splash}") String splashUrl) {
 		this.restTemplate = restTemplate;
+		this.dragonVersionsUrl = dragonVersionsUrl;
+		this.championsUrl = championsUrl;
+		this.championUrl = championUrl;
+		this.splashUrl = splashUrl;
 	}
 
 	public Optional<String> getMostRecentVersion() {
 		HttpEntity<String> entity = new HttpEntity<>("");
 		ResponseEntity<String[]> response = restTemplate.exchange(dragonVersionsUrl, HttpMethod.GET, entity,
 		                                                          String[].class, (Object) null);
+
+		if (!response.getStatusCode().is2xxSuccessful()) {
+			logger.info("Getting most recent version unsuccessful, returned {}", response.getStatusCode().value());
+			return Optional.empty();
+		}
 
 		String[] body = response.getBody();
 		if (body != null && isNotEmpty(Arrays.asList(body))) {
@@ -55,6 +68,7 @@ public class RiotDataService {
 		GetChampionsResponse response = restTemplate.getForObject(targetUrl, GetChampionsResponse.class);
 
 		if (response == null || response.getData() == null) {
+			logger.info("getChampions is not present");
 			return emptyList();
 		}
 
@@ -73,6 +87,7 @@ public class RiotDataService {
 		GetChampionResponse response = restTemplate.getForObject(targetUrl, GetChampionResponse.class);
 
 		if (response == null || response.getData() == null) {
+			logger.info("getChampion is not present");
 			return Optional.empty();
 		}
 
@@ -81,16 +96,23 @@ public class RiotDataService {
 
 	public List<Skin> getSkinsForChampion(String ddragonVersion, String championName) {
 		Optional<RiotChampion> champion = getChampion(ddragonVersion, championName);
-		if (champion.isPresent()) {
-			return champion.get().getSkins();
+		if (champion.isEmpty()) {
+			logger.info("getSkinsForChampion is not present");
+			return emptyList();
 		}
 
-		return emptyList();
+		return champion.get().getSkins();
 	}
 
-	public byte[] getSplash(String championName, String skinNumber) {
+	public Optional<byte[]> getSplash(String championName, String skinNumber) {
 		String targetUrl = splashUrl.formatted(championName, skinNumber);
 
-		return restTemplate.getForObject(targetUrl, byte[].class);
+		byte[] splash = restTemplate.getForObject(targetUrl, byte[].class);
+		if (splash == null || splash.length == 0) {
+			logger.info("getSkinsForChampion is not present");
+			return Optional.empty();
+		}
+
+		return Optional.of(splash);
 	}
 }
