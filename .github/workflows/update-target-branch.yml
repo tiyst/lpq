@@ -1,0 +1,19 @@
+name: Update PR target branch
+
+on:
+  pull_request:
+    types: [ opened ]
+    
+jobs:
+  update_target_branch:
+    permissions: write-all
+    name: "Change PR target branch to dev"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+         
+      - run: |
+          gh pr edit ${{ github.event.number }} -B dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
