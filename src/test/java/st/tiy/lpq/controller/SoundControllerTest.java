@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
-public void class SoundControllerTest {
+public class SoundControllerTest {
 	private static SoundController soundController;
 
 	private static SoundsWebParser soundParser;
