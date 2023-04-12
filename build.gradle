@@ -23,6 +23,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.apache.commons:commons-collections4:4.4'
+	implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'org.jetbrains:annotations:23.0.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
