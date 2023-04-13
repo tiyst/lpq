@@ -9,12 +9,11 @@ import java.io.IOException;
 // https://leagueoflegends.fandom.com/wiki/Aatrox/LoL/Audio
 
 public class SoundService {
-	private final String defaultUrl = "https://leagueoflegends.fandom.com/wiki/championName/LoL/Audio";
-	private final String browser = "Mozilla";
+	private static final String DEFAULTURL = "https://leagueoflegends.fandom.com/wiki/championName/LoL/Audio";
+	private static final String BROWSER = "Mozilla";
 	public Elements getAudioFiles(String championName) throws IOException {
-		String url = defaultUrl.replace("championName",championName);
-		Document doc = Jsoup.connect(url).userAgent(browser).get();
-		Elements audioFiles = doc.select("audio");
-		return audioFiles;
+		String url = DEFAULTURL.replace("championName",championName);
+		Document doc = Jsoup.connect(url).userAgent(BROWSER).get();
+		return doc.select("audio");
 	}
 }

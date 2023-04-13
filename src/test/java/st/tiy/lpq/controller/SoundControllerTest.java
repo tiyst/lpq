@@ -14,12 +14,9 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 class SoundControllerTest {
 	private static SoundController soundController;
 
-	private static SoundService soundService;
-
 	@BeforeAll
 	static void beforeAll() {
-		soundService = new SoundService();
-
+		SoundService soundService = new SoundService();
 		soundController = new SoundController(soundService);
 	}
 

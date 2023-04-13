@@ -18,15 +18,11 @@ public class SoundController {
 		Element quoteElement = element.parent().siblingElements().last();
 		if (quoteElement != null) {
 			sound.setQuote(quoteElement.text());
-		} else {
-			sound.setQuote(null);
-		}
+		} else sound.setQuote(null);
 		Element categotyElement = element.parent().parent().parent().previousElementSibling();
 		if (categotyElement != null) {
 			sound.setCategory(categotyElement.text());
-		} else {
-			sound.setCategory(null);
-		}
+		} else sound.setCategory(null);
 		return sound;
 	}
 	public Sound[] getChampionData(String championName) throws IOException {
