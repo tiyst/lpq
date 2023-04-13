@@ -2,10 +2,15 @@ package st.tiy.lpq.controller.remote;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import st.tiy.lpq.model.remote.riot.champion.Sound;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import st.tiy.lpq.model.Sound;
 import st.tiy.lpq.service.remote.SoundService;
 
 import java.io.IOException;
+import java.util.List;
+
+@Controller
 public class SoundController {
 	private final SoundService soundService;
 	public SoundController(SoundService soundService) {
@@ -15,23 +20,23 @@ public class SoundController {
 	private Sound translateElementToSound(Element element) {
 		Sound sound = new Sound();
 		sound.setAudio(element.attr("src"));
-		Element quoteElement = element.parent().siblingElements().last();
-		if (quoteElement != null) {
-			sound.setQuote(quoteElement.text());
+
+		if ((element.parent() != null) && (element.parent().siblingElements().last() != null)) {
+			sound.setQuote(element.parent().siblingElements().last().text());
 		} else sound.setQuote(null);
-		Element categotyElement = element.parent().parent().parent().previousElementSibling();
-		if (categotyElement != null) {
-			sound.setCategory(categotyElement.text());
+
+		if ((element.parent() != null) && (element.parent().parent() != null)
+				&& (element.parent().parent().parent() != null)
+				&& (element.parent().parent().parent().previousElementSibling() != null)) {
+			sound.setCategory(element.parent().parent().parent().previousElementSibling().text());
 		} else sound.setCategory(null);
 		return sound;
 	}
-	public Sound[] getChampionData(String championName) throws IOException {
+	@GetMapping(path = "sound")
+	public List<Sound> getChampionData(String championName) throws IOException {
 		Elements soundElements = soundService.getAudioFiles(championName);
-		Sound[] audioFiles = new Sound[soundElements.size()];
-		int index = 0;
-		for (Element soundElement: soundElements) {
-			audioFiles[index++] = translateElementToSound(soundElement);
-		}
-		return audioFiles;
+		return soundElements.stream()
+				.map(this::translateElementToSound)
+				.toList();
 	}
 }

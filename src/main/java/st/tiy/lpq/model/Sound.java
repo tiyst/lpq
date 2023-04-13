@@ -1,4 +1,4 @@
-package st.tiy.lpq.model.remote.riot.champion;
+package st.tiy.lpq.model;
 
 public class Sound {
 	private String category;
