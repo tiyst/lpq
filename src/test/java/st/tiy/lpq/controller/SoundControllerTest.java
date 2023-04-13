@@ -17,16 +17,25 @@ class SoundControllerTest {
 	private static SoundService soundService;
 
 	@BeforeAll
-	static void beforeAll() throws IOException {
+	static void beforeAll() {
 		soundService = new SoundService();
 
 		soundController = new SoundController(soundService);
 	}
 
 	@Test
-	void championDataTest() throws IOException {
+	void AatroxChampionData() throws IOException {
 		Sound[] aatrox = soundController.getChampionData("Aatrox");
 		assertNotNull(aatrox, "no files selected");
-		assertEquals("not the same", "Pick", aatrox[0].getType());
+		assertEquals("not the same", "https://static.wikia.nocookie.net/leagueoflegends/images/4/4a/Aatrox_Select.ogg/revision/latest?cb=20180623211027", aatrox[0].getAudio());
+		assertEquals("Wrong sound quote", "\"Now, hear the silence of annihilation!\"", aatrox[0].getQuote());
+		assertEquals("Wrong sound category", "Pick", aatrox[0].getCategory());
+	}
+	@Test
+	void BelVethChampionData() throws IOException {
+		Sound[] aatrox = soundController.getChampionData("Bel'Veth");
+		assertNotNull(aatrox, "no files selected");
+		assertEquals("Wrong sound quote", "\"I am the voice of the silence.\"", aatrox[0].getQuote());
+		assertEquals("Wrong sound category", "Pick", aatrox[0].getCategory());
 	}
 }

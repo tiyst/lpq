@@ -7,7 +7,7 @@ import st.tiy.lpq.service.remote.SoundService;
 
 import java.io.IOException;
 public class SoundController {
-	private SoundService soundService;
+	private final SoundService soundService;
 	public SoundController(SoundService soundService) {
 		this.soundService = soundService;
 	}
@@ -21,11 +21,11 @@ public class SoundController {
 		} else {
 			sound.setQuote(null);
 		}
-		Element typeElement = element.parent().parent().parent().previousElementSibling();
-		if (typeElement != null) {
-			sound.setType(typeElement.text());
+		Element categotyElement = element.parent().parent().parent().previousElementSibling();
+		if (categotyElement != null) {
+			sound.setCategory(categotyElement.text());
 		} else {
-			sound.setType(null);
+			sound.setCategory(null);
 		}
 		return sound;
 	}

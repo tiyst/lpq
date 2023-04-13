@@ -1,16 +1,16 @@
 package st.tiy.lpq.model.remote.riot.champion;
 
 public class Sound {
-	private String type;
+	private String category;
 	private String quote;
 	private String audio;
 
-	public String getType() {
-		return type;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getQuote() {
