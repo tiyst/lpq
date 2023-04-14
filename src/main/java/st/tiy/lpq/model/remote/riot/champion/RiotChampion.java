@@ -27,7 +27,7 @@ public class RiotChampion {
 	@JsonProperty("title")
 	private String title;
 	@JsonProperty("skins")
-	private List<Skin> skins;
+	private List<RiotSkin> riotSkins;
 	@JsonProperty("lore")
 	private String lore;
 	@JsonProperty("blurb")
@@ -37,7 +37,7 @@ public class RiotChampion {
 	@JsonProperty("partype")
 	private String partype;
 	@JsonProperty("spells")
-	private List<Spell> spells;
+	private List<RiotSpell> riotSpells;
 	@JsonProperty("passive")
 	private Passive passive;
 
@@ -102,13 +102,13 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("skins")
-	public List<Skin> getSkins() {
-		return skins;
+	public List<RiotSkin> getSkins() {
+		return riotSkins;
 	}
 
 	@JsonProperty("skins")
-	public void setSkins(List<Skin> skins) {
-		this.skins = skins;
+	public void setSkins(List<RiotSkin> riotSkins) {
+		this.riotSkins = riotSkins;
 	}
 
 	@JsonProperty("lore")
@@ -122,13 +122,13 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("spells")
-	public List<Spell> getSpells() {
-		return spells;
+	public List<RiotSpell> getSpells() {
+		return riotSpells;
 	}
 
 	@JsonProperty("spells")
-	public void setSpells(List<Spell> spells) {
-		this.spells = spells;
+	public void setSpells(List<RiotSpell> riotSpells) {
+		this.riotSpells = riotSpells;
 	}
 
 	@JsonProperty("passive")

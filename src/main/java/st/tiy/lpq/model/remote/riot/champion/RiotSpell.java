@@ -16,7 +16,7 @@ import java.util.List;
 		"leveltip",
 		"range"
 })
-public class Spell {
+public class RiotSpell {
 
 	@JsonProperty("id")
 	private String id;
