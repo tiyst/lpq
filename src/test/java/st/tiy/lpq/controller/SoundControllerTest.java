@@ -18,6 +18,7 @@ class SoundControllerTest {
 	@BeforeAll
 	static void beforeAll() {
 		SoundService soundService = new SoundService();
+
 		soundController = new SoundController(soundService);
 	}
 
