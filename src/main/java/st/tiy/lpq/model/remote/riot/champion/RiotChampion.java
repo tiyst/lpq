@@ -102,12 +102,12 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("skins")
-	public List<RiotSkin> getSkins() {
+	public List<RiotSkin> getRiotSkins() {
 		return riotSkins;
 	}
 
 	@JsonProperty("skins")
-	public void setSkins(List<RiotSkin> riotSkins) {
+	public void setRiotSkins(List<RiotSkin> riotSkins) {
 		this.riotSkins = riotSkins;
 	}
 

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import st.tiy.lpq.model.remote.riot.champion.RiotChampion;
-import st.tiy.lpq.model.remote.riot.champion.Skin;
+import st.tiy.lpq.model.remote.riot.champion.RiotSkin;
 import st.tiy.lpq.model.remote.riot.champion.champions.GetChampionResponse;
 import st.tiy.lpq.model.remote.riot.champion.champions.GetChampionsResponse;
 
@@ -95,14 +95,14 @@ public class RiotDataService {
 		return Optional.ofNullable(response.getData().get(championName));
 	}
 
-	public List<Skin> getSkinsForChampion(String ddragonVersion, String championName) {
+	public List<RiotSkin> getSkinsForChampion(String ddragonVersion, String championName) {
 		Optional<RiotChampion> champion = getChampion(ddragonVersion, championName);
 		if (champion.isEmpty()) {
 			logger.info("getSkinsForChampion is not present");
 			return emptyList();
 		}
 
-		return champion.get().getSkins();
+		return champion.get().getRiotSkins();
 	}
 
 	public Optional<byte[]> getSplash(String championName, String skinNumber) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import st.tiy.lpq.model.remote.riot.champion.RiotChampion;
-import st.tiy.lpq.model.remote.riot.champion.Skin;
+import st.tiy.lpq.model.remote.riot.champion.RiotSkin;
 import st.tiy.lpq.service.remote.RiotDataService;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class RiotDataController {
 	}
 
 	@GetMapping(path = "champions/skins/{ddragonVersion}/{champion}")
-	public List<Skin> getChampionSkins(@PathVariable String ddragonVersion, @PathVariable String champion) {
+	public List<RiotSkin> getChampionSkins(@PathVariable String ddragonVersion, @PathVariable String champion) {
 		return riotDataService.getSkinsForChampion(ddragonVersion, champion);
 	}
 
