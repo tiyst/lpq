@@ -18,7 +18,6 @@ public class Passive {
 	@GeneratedValue
 	private Long id;
 
-	private String riotId;
 	private String name;
 	private String description;
 	@ManyToOne

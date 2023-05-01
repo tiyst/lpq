@@ -42,7 +42,7 @@ public class RiotChampion {
 	@JsonProperty("spells")
 	private List<DdragonSpell> ddragonSpells;
 	@JsonProperty("passive")
-	private Passive passive;
+	private DdragonPassive ddragonPassive;
 
 	public String getId() {
 		return id;
@@ -151,12 +151,12 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("passive")
-	public Passive getPassive() {
-		return passive;
+	public DdragonPassive getPassive() {
+		return ddragonPassive;
 	}
 
 	@JsonProperty("passive")
-	public void setPassive(Passive passive) {
-		this.passive = passive;
+	public void setPassive(DdragonPassive ddragonPassive) {
+		this.ddragonPassive = ddragonPassive;
 	}
 }

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"description",
 		"image"
 })
-public class Passive {
+public class DdragonPassive {
 
 	@JsonProperty("name")
 	private String name;
