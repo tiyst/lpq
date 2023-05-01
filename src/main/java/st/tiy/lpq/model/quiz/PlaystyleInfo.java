@@ -3,7 +3,6 @@ package st.tiy.lpq.model.quiz;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Getter
@@ -12,16 +11,16 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class Skin {
+public class PlaystyleInfo {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	private Integer number;
-	private String name;
-	private boolean hasChromas;
-	@ManyToOne
-	private Champion champion;
+	private Integer damage;
+	private Integer durability;
+	private Integer crowdControl;
+	private Integer mobility;
+	private Integer utility;
 
 }

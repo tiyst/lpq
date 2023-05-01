@@ -10,6 +10,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
+		"id",
 		"key",
 		"name",
 		"title",
@@ -20,6 +21,8 @@ import java.util.List;
 })
 public class RiotChampion {
 
+	@JsonProperty("id")
+	private String id;
 	@JsonProperty("key")
 	private String key;
 	@JsonProperty("name")
@@ -37,9 +40,25 @@ public class RiotChampion {
 	@JsonProperty("partype")
 	private String partype;
 	@JsonProperty("spells")
-	private List<RiotSpell> riotSpells;
+	private List<DdragonSpell> ddragonSpells;
 	@JsonProperty("passive")
 	private Passive passive;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<DdragonSpell> getRiotSpells() {
+		return ddragonSpells;
+	}
+
+	public void setRiotSpells(List<DdragonSpell> ddragonSpells) {
+		this.ddragonSpells = ddragonSpells;
+	}
 
 	@JsonProperty("key")
 	public String getKey() {
@@ -122,13 +141,13 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("spells")
-	public List<RiotSpell> getSpells() {
-		return riotSpells;
+	public List<DdragonSpell> getSpells() {
+		return ddragonSpells;
 	}
 
 	@JsonProperty("spells")
-	public void setSpells(List<RiotSpell> riotSpells) {
-		this.riotSpells = riotSpells;
+	public void setSpells(List<DdragonSpell> ddragonSpells) {
+		this.ddragonSpells = ddragonSpells;
 	}
 
 	@JsonProperty("passive")

@@ -1,16 +1,17 @@
-package st.tiy.lpq.service.remote;
+package st.tiy.lpq.service.retrieval;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import st.tiy.lpq.service.remote.RiotDataService;
 
 import java.util.Date;
 
 @EnableScheduling
-public class RiotDataRetrievalService {
+public class QuizDataRetrievalService {
 
 	private final RiotDataService dataService;
 
-	public RiotDataRetrievalService(RiotDataService dataService) {
+	public QuizDataRetrievalService(RiotDataService dataService) {
 		this.dataService = dataService;
 	}
 

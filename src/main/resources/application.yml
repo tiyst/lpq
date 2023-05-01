@@ -8,6 +8,16 @@ riot:
     champions: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion.json
     champion: http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion/%s.json
     splash: http://ddragon.leagueoflegends.com/cdn/img/champion/splash/%s_%s.jpg
+  cdragon:
+    enabled: false
+    baseUrl: https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/
+    championSummary: v1/champion-summary.json
+    champion: champions/%s.json
+    championIcons: champions-icons/%s.png
+    championSplash: champion-splashes/uncentered/%s.jpg
+    championSfx: champion-sfx-audios/%s.ogg
+    chooseVo: champion-choose-vo/%s.ogg
+    banVo: champion-ban-vo/%s.ogg
 
 quiz:
   data:

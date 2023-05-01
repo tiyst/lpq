@@ -12,16 +12,15 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class Skin {
+public class Passive {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	private Integer number;
+	private String riotId;
 	private String name;
-	private boolean hasChromas;
+	private String description;
 	@ManyToOne
 	private Champion champion;
-
 }

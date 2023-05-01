@@ -16,7 +16,7 @@ import java.util.List;
 		"leveltip",
 		"range"
 })
-public class RiotSpell {
+public class DdragonSpell {
 
 	@JsonProperty("id")
 	private String id;
