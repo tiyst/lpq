@@ -12,7 +12,7 @@ import java.util.Map;
 		"name",
 		"chromas"
 })
-public class Skin {
+public class RiotSkin {
 
 	@JsonProperty("id")
 	private String id;

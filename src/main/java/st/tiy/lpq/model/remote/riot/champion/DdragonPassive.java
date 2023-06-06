@@ -5,37 +5,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import java.util.List;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-		"id",
 		"name",
 		"description",
-		"leveltip",
-		"range"
+		"image"
 })
-public class Spell {
+public class DdragonPassive {
 
-	@JsonProperty("id")
-	private String id;
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("description")
 	private String description;
-	@JsonProperty("range")
-	private List<Integer> range;
-
-	@JsonProperty("id")
-	public String getId() {
-		return id;
-	}
-
-	@JsonProperty("id")
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	@JsonProperty("name")
 	public String getName() {
@@ -55,15 +37,5 @@ public class Spell {
 	@JsonProperty("description")
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	@JsonProperty("range")
-	public List<Integer> getRange() {
-		return range;
-	}
-
-	@JsonProperty("range")
-	public void setRange(List<Integer> range) {
-		this.range = range;
 	}
 }

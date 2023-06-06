@@ -10,6 +10,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
+		"id",
 		"key",
 		"name",
 		"title",
@@ -20,6 +21,8 @@ import java.util.List;
 })
 public class RiotChampion {
 
+	@JsonProperty("id")
+	private String id;
 	@JsonProperty("key")
 	private String key;
 	@JsonProperty("name")
@@ -27,7 +30,7 @@ public class RiotChampion {
 	@JsonProperty("title")
 	private String title;
 	@JsonProperty("skins")
-	private List<Skin> skins;
+	private List<RiotSkin> riotSkins;
 	@JsonProperty("lore")
 	private String lore;
 	@JsonProperty("blurb")
@@ -37,9 +40,25 @@ public class RiotChampion {
 	@JsonProperty("partype")
 	private String partype;
 	@JsonProperty("spells")
-	private List<Spell> spells;
+	private List<DdragonSpell> ddragonSpells;
 	@JsonProperty("passive")
-	private Passive passive;
+	private DdragonPassive ddragonPassive;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<DdragonSpell> getRiotSpells() {
+		return ddragonSpells;
+	}
+
+	public void setRiotSpells(List<DdragonSpell> ddragonSpells) {
+		this.ddragonSpells = ddragonSpells;
+	}
 
 	@JsonProperty("key")
 	public String getKey() {
@@ -102,13 +121,13 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("skins")
-	public List<Skin> getSkins() {
-		return skins;
+	public List<RiotSkin> getRiotSkins() {
+		return riotSkins;
 	}
 
 	@JsonProperty("skins")
-	public void setSkins(List<Skin> skins) {
-		this.skins = skins;
+	public void setRiotSkins(List<RiotSkin> riotSkins) {
+		this.riotSkins = riotSkins;
 	}
 
 	@JsonProperty("lore")
@@ -122,22 +141,22 @@ public class RiotChampion {
 	}
 
 	@JsonProperty("spells")
-	public List<Spell> getSpells() {
-		return spells;
+	public List<DdragonSpell> getSpells() {
+		return ddragonSpells;
 	}
 
 	@JsonProperty("spells")
-	public void setSpells(List<Spell> spells) {
-		this.spells = spells;
+	public void setSpells(List<DdragonSpell> ddragonSpells) {
+		this.ddragonSpells = ddragonSpells;
 	}
 
 	@JsonProperty("passive")
-	public Passive getPassive() {
-		return passive;
+	public DdragonPassive getPassive() {
+		return ddragonPassive;
 	}
 
 	@JsonProperty("passive")
-	public void setPassive(Passive passive) {
-		this.passive = passive;
+	public void setPassive(DdragonPassive ddragonPassive) {
+		this.ddragonPassive = ddragonPassive;
 	}
 }
