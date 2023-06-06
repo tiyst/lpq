@@ -11,13 +11,7 @@ import st.tiy.lpq.model.remote.cdragon.champion.CdragonSpell;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public abstract class CdragonSpellMapper {
-
-	public List<Spell> toSpells(CdragonChampion champion) {
-		return champion.getCdragonSpells().stream()
-		               .map(this::toSpell)
-		               .toList();
-	}
+public interface CdragonSpellMapper {
 
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "champion", ignore = true)
@@ -26,5 +20,11 @@ public abstract class CdragonSpellMapper {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "champion", ignore = true)
 	public abstract Spell toSpell(CdragonSpell cdragonSpell);
+
+	default List<Spell> toSpells(CdragonChampion champion) {
+		return champion.getCdragonSpells().stream()
+		               .map(this::toSpell)
+		               .toList();
+	}
 
 }

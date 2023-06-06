@@ -7,48 +7,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import st.tiy.lpq.model.remote.riot.champion.RiotChampion;
 import st.tiy.lpq.model.remote.riot.champion.RiotSkin;
-import st.tiy.lpq.service.remote.RiotDataService;
+import st.tiy.lpq.service.remote.DdragonDataService;
+import st.tiy.lpq.utils.environments.Dev;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/riot")
+@Dev
 public class RiotDataController {
 
-	private final RiotDataService riotDataService;
+	private final DdragonDataService ddragonDataService;
 
-	public RiotDataController(RiotDataService riotDataService) {
-		this.riotDataService = riotDataService;
+	public RiotDataController(DdragonDataService ddragonDataService) {
+		this.ddragonDataService = ddragonDataService;
 	}
 
 	@GetMapping(path = "version")
 	public String getVersion() {
-		return riotDataService.getMostRecentVersion().orElse(null);
+		return ddragonDataService.getMostRecentVersion().orElse(null);
 	}
 
 	@GetMapping(path = "champions/{ddragonVersion}")
 	public List<RiotChampion> getChampions(@PathVariable String ddragonVersion) {
-		return riotDataService.getChampions(ddragonVersion);
+		return ddragonDataService.getDdragonChampions(ddragonVersion);
 	}
 
 	@GetMapping(path = "champions/{ddragonVersion}/{champion}")
 	public RiotChampion getChampion(@PathVariable String ddragonVersion, @PathVariable String champion) {
-		return riotDataService.getChampion(ddragonVersion, champion).orElse(null);
+		return ddragonDataService.getChampion(ddragonVersion, champion).orElse(null);
 	}
 
 	@GetMapping(path = "champions/names/{ddragonVersion}")
 	public List<String> getChampionsNames(@PathVariable String ddragonVersion) {
-		return riotDataService.getChampionNames(ddragonVersion);
+		return ddragonDataService.getChampionNames(ddragonVersion);
 	}
 
 	@GetMapping(path = "champions/skins/{ddragonVersion}/{champion}")
 	public List<RiotSkin> getChampionSkins(@PathVariable String ddragonVersion, @PathVariable String champion) {
-		return riotDataService.getSkinsForChampion(ddragonVersion, champion);
+		return ddragonDataService.getSkinsForChampion(ddragonVersion, champion);
 	}
 
 	@GetMapping(path = "champions/splash/{champion}/{number}", produces = MediaType.IMAGE_JPEG_VALUE)
 	public byte[] getSplash(@PathVariable String champion, @PathVariable String number) {
-		return riotDataService.getSplash(champion, number).orElse(null);
+		return ddragonDataService.getSplash(champion, number).orElse(null);
 	}
 
 }

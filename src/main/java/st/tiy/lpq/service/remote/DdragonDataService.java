@@ -1,44 +1,72 @@
 package st.tiy.lpq.service.remote;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import st.tiy.lpq.model.quiz.Champion;
+import st.tiy.lpq.model.quiz.DdragonVersion;
+import st.tiy.lpq.model.quiz.mapper.DdragonChampionMapper;
 import st.tiy.lpq.model.remote.riot.champion.RiotChampion;
 import st.tiy.lpq.model.remote.riot.champion.RiotSkin;
 import st.tiy.lpq.model.remote.riot.champion.champions.GetChampionResponse;
 import st.tiy.lpq.model.remote.riot.champion.champions.GetChampionsResponse;
+import st.tiy.lpq.repository.remote.DdragonVersionRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
 @Service
-@ConditionalOnMissingBean(CdragonDataService.class)
-public class RiotDataService extends RemoteDataService {
+public class DdragonDataService extends RemoteDataService {
 
-	private final Logger logger = LoggerFactory.getLogger(RiotDataService.class);
+	private final DdragonVersionRepository versionRepository;
+
+	private final DdragonChampionMapper ddragonChampionMapper;
 
 	private final String dragonVersionsUrl;
 	private final String championsUrl;
 	private final String championUrl;
 	private final String splashUrl;
 
-
-	public RiotDataService(RestTemplate restTemplate,
-	                       @Value("${riot.ddragon.versions}") String dragonVersionsUrl,
-	                       @Value("${riot.ddragon.champions}") String championsUrl,
-	                       @Value("${riot.ddragon.champion}") String championUrl,
-	                       @Value("${riot.ddragon.splash}") String splashUrl) {
+	public DdragonDataService(RestTemplate restTemplate,
+	                          DdragonVersionRepository versionRepository,
+	                          DdragonChampionMapper championMapper,
+	                          @Value("${riot.ddragon.versions}") String dragonVersionsUrl,
+	                          @Value("${riot.ddragon.champions}") String championsUrl,
+	                          @Value("${riot.ddragon.champion}") String championUrl,
+	                          @Value("${riot.ddragon.splash}") String splashUrl) {
 		super(restTemplate);
+		this.versionRepository = versionRepository;
+		this.ddragonChampionMapper = championMapper;
 		this.dragonVersionsUrl = dragonVersionsUrl;
 		this.championsUrl = championsUrl;
 		this.championUrl = championUrl;
 		this.splashUrl = splashUrl;
+	}
+
+	@Override
+	public boolean shouldUpdate() {
+		DdragonVersion version = versionRepository.findTopByOrderByIdDesc();
+		String ddragonVersion = version.getVersion();
+		Optional<String> mostRecentVersion = getMostRecentVersion();
+
+		return mostRecentVersion.map(s -> s.equals(ddragonVersion)).orElse(false);
+	}
+
+	@Override
+	public List<Champion> getChampions() {
+		DdragonVersion version = versionRepository.findTopByOrderByIdDesc();
+		List<RiotChampion> ddragonChampions = getDdragonChampions(version.getVersion());
+
+		return ddragonChampions.stream()
+		                       .map(ddragonChampionMapper::mapChampion)
+		                       .toList();
+	}
+
+	@Override
+	public Optional<byte[]> getAsset(String path) {
+		return getForClass(path, byte[].class);
 	}
 
 	public Optional<String> getMostRecentVersion() {
@@ -47,20 +75,18 @@ public class RiotDataService extends RemoteDataService {
 		return response.map(versions -> versions[0]);
 	}
 
-	public List<RiotChampion> getChampions(String ddragonVersion) {
+	public List<RiotChampion> getDdragonChampions(String ddragonVersion) {
 		String targetUrl = championsUrl.formatted(ddragonVersion);
-		List<RiotChampion> champions = new ArrayList<>();
 		Optional<GetChampionsResponse> response = getForClass(targetUrl, GetChampionsResponse.class);
 
-		response.ifPresent(getChampionsResponse -> champions.addAll(getChampionsResponse.getData().values()));
-
-		return champions;
+		return response.map(r -> r.getData().values().stream().toList())
+		               .orElseGet(List::of);
 	}
 
 	public List<String> getChampionNames(String ddragonVersion) {
-		return getChampions(ddragonVersion).stream()
-		                                   .map(RiotChampion::getName)
-		                                   .toList();
+		return getDdragonChampions(ddragonVersion).stream()
+		                                          .map(RiotChampion::getName)
+		                                          .toList();
 	}
 
 	public Optional<RiotChampion> getChampion(String ddragonVersion, String championName) {

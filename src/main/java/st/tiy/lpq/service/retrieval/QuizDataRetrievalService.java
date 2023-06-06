@@ -2,22 +2,34 @@ package st.tiy.lpq.service.retrieval;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import st.tiy.lpq.service.remote.RiotDataService;
+import st.tiy.lpq.repository.ChampionRepository;
+import st.tiy.lpq.service.remote.RemoteDataService;
 
-import java.util.Date;
+import java.util.List;
 
 @EnableScheduling
 public class QuizDataRetrievalService {
 
-	private final RiotDataService dataService;
+	private final List<RemoteDataService> remoteDataServices;
 
-	public QuizDataRetrievalService(RiotDataService dataService) {
-		this.dataService = dataService;
+	private final ChampionRepository championRepository;
+
+	public QuizDataRetrievalService(List<RemoteDataService> remoteDataServices, ChampionRepository championRepository) {
+		this.remoteDataServices = remoteDataServices;
+		this.championRepository = championRepository;
 	}
 
 	@Scheduled(cron = "${quiz.data.update.interval}")
 	public void updateData() {
-		System.out.println("Scheduled " + new Date());
+		updateQuizData();
+	}
+
+	public void updateQuizData() {
+		// TODO
+	}
+
+	private void mergeChampionData() {
+		// TODO
 	}
 
 }

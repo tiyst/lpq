@@ -3,6 +3,7 @@ package st.tiy.lpq.model.quiz;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 @Getter
@@ -23,4 +24,6 @@ public class PlaystyleInfo {
 	private Integer mobility;
 	private Integer utility;
 
+	@OneToOne
+	private Champion champion;
 }

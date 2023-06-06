@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import st.tiy.lpq.exception.remote.RetrievalException;
+import st.tiy.lpq.model.quiz.Champion;
 
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class RemoteDataService {
@@ -20,23 +20,24 @@ public abstract class RemoteDataService {
 		this.restTemplate = restTemplate;
 	}
 
+	public abstract boolean shouldUpdate();
+
+	public abstract List<Champion> getChampions();
+
+	public abstract Optional<byte[]> getAsset(String path);
+
 	protected <T> Optional<T> getForClass(String url, Class<T> clazz) {
-		URI uri;
-		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
-			throw new RetrievalException(String.format("Retrieval for url %s failed", url));
-		}
-		ResponseEntity<T> response = restTemplate.getForEntity(uri, clazz);
+		URI uri = URI.create(url);
+ 		ResponseEntity<T> response = restTemplate.getForEntity(uri, clazz);
 
 		if (!response.getStatusCode().is2xxSuccessful()) {
-			logger.info("getForClass unsuccessful url:{}, returned code {}",url, response.getStatusCode().value());
+			logger.error("retrieval for url:{}, returned code {}",url, response.getStatusCode().value());
 			return Optional.empty();
 		}
 
 		T body = response.getBody();
 		if (body == null) {
-			logger.info("Response body is empty for url:{}", url);
+			logger.error("Response body is empty for url:{}", url);
 			return Optional.empty();
 		}
 

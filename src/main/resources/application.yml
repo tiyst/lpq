@@ -10,14 +10,14 @@ riot:
     splash: http://ddragon.leagueoflegends.com/cdn/img/champion/splash/%s_%s.jpg
   cdragon:
     enabled: false
-    baseUrl: https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/
-    championSummary: v1/champion-summary.json
-    champion: champions/%s.json
-    championIcons: champions-icons/%s.png
-    championSplash: champion-splashes/uncentered/%s.jpg
-    championSfx: champion-sfx-audios/%s.ogg
-    chooseVo: champion-choose-vo/%s.ogg
-    banVo: champion-ban-vo/%s.ogg
+    baseUrl: https://raw.communitydragon.org/latest
+    championSummary: /plugins/rcp-be-lol-game-data/global/default/v1/champion-summary.json
+    champion: /plugins/rcp-be-lol-game-data/global/default/v1/champions/%s.json
+    championIcons: /v1/champions-icons/%s.png
+    championSplash: /v1/champion-splashes/uncentered/%s.jpg
+    championSfx: /v1/champion-sfx-audios/%s.ogg
+    chooseVo: /v1/champion-choose-vo/%s.ogg
+    banVo: /v1/champion-ban-vo/%s.ogg
 
 quiz:
   data:

@@ -2,6 +2,7 @@
 package st.tiy.lpq.model.remote.cdragon.champion;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
 		"mobility",
 		"utility"
 })
+@JsonDeserialize(builder = CdragonPlaystyleInfo.CdragonPlaystyleInfoBuilder.class)
 @Builder
 public class CdragonPlaystyleInfo {
 
@@ -30,7 +32,7 @@ public class CdragonPlaystyleInfo {
 	private Integer utility;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("damage")
 	public Integer getDamage() {

@@ -2,6 +2,7 @@
 package st.tiy.lpq.model.remote.cdragon.champion;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 
 import java.util.LinkedHashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
 		"effectAmounts",
 		"maxLevel"
 })
+@JsonDeserialize(builder = CdragonSpell.CdragonSpellBuilder.class)
 @Builder
 public class CdragonSpell {
 
@@ -60,7 +62,7 @@ public class CdragonSpell {
 	private Integer maxLevel;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("spellKey")
 	public String getSpellKey() {

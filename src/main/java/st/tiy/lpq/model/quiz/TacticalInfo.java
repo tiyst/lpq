@@ -3,6 +3,7 @@ package st.tiy.lpq.model.quiz;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 @Getter
@@ -20,5 +21,8 @@ public class TacticalInfo {
 	private Integer style;
 	private Integer difficulty;
 	private String damageType;
+
+	@OneToOne
+	private Champion champion;
 
 }

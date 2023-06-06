@@ -14,7 +14,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@SpringBootTest(classes = {CdragonChampionMapperImpl.class, CdragonSkinMapperImpl.class, CdragonSpellMapperImpl.class})
 @ContextConfiguration(classes = {CdragonChampionMapperImpl.class, CdragonSkinMapperImpl.class, CdragonSpellMapperImpl.class})
 @ExtendWith(SpringExtension.class)
 class CdragonChampionMapperTest {

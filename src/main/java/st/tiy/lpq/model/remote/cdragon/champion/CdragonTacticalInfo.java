@@ -2,6 +2,7 @@
 package st.tiy.lpq.model.remote.cdragon.champion;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 		"difficulty",
 		"damageType"
 })
+@JsonDeserialize(builder = CdragonTacticalInfo.CdragonTacticalInfoBuilder.class)
 @Builder
 public class CdragonTacticalInfo {
 
@@ -24,7 +26,7 @@ public class CdragonTacticalInfo {
 	private String damageType;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("style")
 	public Integer getStyle() {

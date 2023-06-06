@@ -2,6 +2,7 @@
 package st.tiy.lpq.model.remote.cdragon.champion;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 
 import java.util.LinkedHashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
 		"passive",
 		"spells"
 })
+@JsonDeserialize(builder = CdragonChampion.CdragonChampionBuilder.class)
 @Builder
 public class CdragonChampion {
 
@@ -63,7 +65,7 @@ public class CdragonChampion {
 	private List<CdragonSpell> cdragonSpells;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
+	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("id")
 	public Integer getId() {
