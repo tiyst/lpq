@@ -4,16 +4,14 @@ package st.tiy.lpq.service.remote;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import st.tiy.lpq.components.FileSystem;
 import st.tiy.lpq.model.quiz.Champion;
 import st.tiy.lpq.model.quiz.mapper.CdragonChampionMapper;
 import st.tiy.lpq.model.remote.cdragon.champion.CdragonChampion;
 import st.tiy.lpq.model.remote.cdragon.champion.ChampionSummary;
 import st.tiy.lpq.repository.remote.CdragonVersionRepository;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CdragonDataService extends RemoteDataService {
@@ -24,23 +22,26 @@ public class CdragonDataService extends RemoteDataService {
 	private final CdragonChampionMapper mapper;
 
 	private final CdragonVersionRepository versionRepository;
+	private final FileSystem fileSystem;
 
 	private final String baseUrl;
 	private final String championSummaryUrl;
 	private final String championUrl;
 
 	public CdragonDataService(RestTemplate restTemplate,
-	                          CdragonChampionMapper mapper,
+							  CdragonChampionMapper mapper,
 							  CdragonVersionRepository versionRepository,
-	                          @Value("${riot.cdragon.baseUrl}") String baseUrl,
-	                          @Value("${riot.cdragon.championSummary}") String championSummaryUrl,
-	                          @Value("${riot.cdragon.champion}") String championUrl) {
+							  @Value("${riot.cdragon.baseUrl}") String baseUrl,
+							  @Value("${riot.cdragon.championSummary}") String championSummaryUrl,
+							  @Value("${riot.cdragon.champion}") String championUrl,
+							  FileSystem fileSystem) {
 		super(restTemplate);
 		this.versionRepository = versionRepository;
 		this.mapper = mapper;
 		this.baseUrl = baseUrl;
 		this.championSummaryUrl = championSummaryUrl;
 		this.championUrl = championUrl;
+		this.fileSystem = fileSystem;
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class CdragonDataService extends RemoteDataService {
 		return result.map(Arrays::asList).orElse(Collections.emptyList());
 	}
 
-	public Optional<CdragonChampion> getChampion(String championId) {
+	public Optional<CdragonChampion> getChampion(String championId)  {
 		String url = concatPath(baseUrl, championUrl, championId);
 
 		return getForClass(url, CdragonChampion.class);
@@ -95,5 +96,19 @@ public class CdragonDataService extends RemoteDataService {
 		}
 
 		return path.toLowerCase();
+	}
+
+	private void saveChampionMedia(CdragonChampion cdragonChampion){
+		String name = cdragonChampion.getName();
+		Map<String, String> remoteToLocalPathMap = Map.of(
+				cdragonChampion.getBanVoPath(), "banVo.ogg",
+				cdragonChampion.getChooseVoPath(), "chooseVo.ogg",
+				cdragonChampion.getSquarePortraitPath(), "squarePortrait.png",
+				cdragonChampion.getStingerSfxPath(), "stingerSfx.ogg");
+
+		for (Map.Entry<String, String> entry : remoteToLocalPathMap.entrySet()) {
+			Optional<byte[]> maybeBytes = getAsset(entry.getKey());
+			maybeBytes.ifPresent(bytes -> fileSystem.saveFile(bytes, name, entry.getValue()));
+		}
 	}
 }
