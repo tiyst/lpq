@@ -54,7 +54,7 @@ public class CdragonDataService extends RemoteDataService {
 	public List<Champion> getChampions() {
 		List<ChampionSummary> championSummaries = getChampionSummaries();
 		return championSummaries.stream()
-		                        .map(summary -> getChampion(summary.getName()))
+								.map(summary -> getChampion(summary.getId().toString()))
 		                        .filter(Optional::isPresent)
 		                        .map(Optional::get)
 		                        .map(mapper::toChampion)
