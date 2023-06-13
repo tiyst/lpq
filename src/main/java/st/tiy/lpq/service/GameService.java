@@ -6,6 +6,7 @@ import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -26,5 +27,11 @@ public class GameService {
 
 	public Game getGame(String sessionId) {
 		return games.get(sessionId);
+	}
+
+	public List<Game> getPublicGames() {
+		return this.games.values().stream()
+		                 .filter(game -> !game.isPrivate())
+		                 .toList();
 	}
 }
