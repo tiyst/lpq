@@ -4,6 +4,7 @@ package st.tiy.lpq.model.remote.cdragon.champion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import st.tiy.lpq.annotations.Downloadable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,42 +39,46 @@ import java.util.Map;
 public class CdragonSkin {
 
 	@JsonProperty("id")
-	private Integer id;
+	public Integer id;
 	@JsonProperty("isBase")
-	private Boolean isBase;
+	public Boolean isBase;
 	@JsonProperty("name")
-	private String name;
+	public String name;
+	@Downloadable(filePath = "/{championName}/skins/{skinName}/splash.png")
 	@JsonProperty("splashPath")
-	private String splashPath;
+	public String splashPath;
+	@Downloadable(filePath = "/{championName}/skins/{skinName}/uncenteredSplash.png")
 	@JsonProperty("uncenteredSplashPath")
-	private String uncenteredSplashPath;
+	public String uncenteredSplashPath;
+	@Downloadable(filePath = "/{championName}/skins/{skinName}/tile.png")
 	@JsonProperty("tilePath")
-	private String tilePath;
+	public String tilePath;
+	@Downloadable(filePath = "/{championName}/skins/{skinName}/loadScreen.png")
 	@JsonProperty("loadScreenPath")
-	private String loadScreenPath;
+	public String loadScreenPath;
 	@JsonProperty("skinType")
-	private String skinType;
+	public String skinType;
 	@JsonProperty("rarity")
-	private String rarity;
+	public String rarity;
 	@JsonProperty("isLegacy")
-	private Boolean isLegacy;
+	public Boolean isLegacy;
 	@JsonProperty("splashVideoPath")
-	private Object splashVideoPath;
+	public Object splashVideoPath;
 	@JsonProperty("collectionSplashVideoPath")
-	private Object collectionSplashVideoPath;
+	public Object collectionSplashVideoPath;
 	@JsonProperty("featuresText")
-	private Object featuresText;
+	public Object featuresText;
 	@JsonProperty("skinLines")
-	private List<SkinLine> skinLines;
+	public List<SkinLine> skinLines;
 	@JsonProperty("description")
-	private String description;
+	public String description;
 	@JsonProperty("chromas")
-	private List<Chroma> chromas;
+	public List<Chroma> chromas;
 	@JsonProperty("loadScreenVintagePath")
-	private String loadScreenVintagePath;
+	public String loadScreenVintagePath;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
+	public Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("id")
 	public Integer getId() {

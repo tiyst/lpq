@@ -4,6 +4,7 @@ package st.tiy.lpq.model.remote.cdragon.champion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import st.tiy.lpq.annotations.Downloadable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,36 +34,39 @@ import java.util.Map;
 public class CdragonSpell {
 
 	@JsonProperty("spellKey")
-	private String spellKey;
+	public String spellKey;
 	@JsonProperty("name")
-	private String name;
+	public String name;
+	@Downloadable(filePath = "/{championName}/spells/{spellName}/abilityIcon.png")
 	@JsonProperty("abilityIconPath")
-	private String abilityIconPath;
+	public String abilityIconPath;
+	//@Downloadable(filePath = "/{championName}/spells/{spellName}/abilityVideo.ogg")
 	@JsonProperty("abilityVideoPath")
-	private String abilityVideoPath;
+	public String abilityVideoPath;
+	//@Downloadable(filePath = "/{championName}/spells/{spellName}/abilityVideoImage.png")
 	@JsonProperty("abilityVideoImagePath")
-	private String abilityVideoImagePath;
+	public String abilityVideoImagePath;
 	@JsonProperty("cost")
-	private String cost;
+	public String cost;
 	@JsonProperty("cooldown")
-	private String cooldown;
+	public String cooldown;
 	@JsonProperty("description")
-	private String description;
+	public String description;
 	@JsonProperty("dynamicDescription")
-	private String dynamicDescription;
+	public String dynamicDescription;
 	@JsonProperty("range")
-	private List<Double> range;
+	public List<Double> range;
 	@JsonProperty("costCoefficients")
-	private List<Double> costCoefficients;
+	public List<Double> costCoefficients;
 	@JsonProperty("cooldownCoefficients")
-	private List<Double> cooldownCoefficients;
+	public List<Double> cooldownCoefficients;
 	@JsonProperty("effectAmounts")
-	private EffectAmounts effectAmounts;
+	public EffectAmounts effectAmounts;
 	@JsonProperty("maxLevel")
-	private Integer maxLevel;
+	public Integer maxLevel;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
+	public Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("spellKey")
 	public String getSpellKey() {

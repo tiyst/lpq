@@ -4,6 +4,7 @@ package st.tiy.lpq.model.remote.cdragon.champion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import st.tiy.lpq.annotations.Downloadable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,10 +23,13 @@ public class CdragonPassive {
 
 	@JsonProperty("name")
 	private String name;
+	@Downloadable(filePath = "/{championName}/spells/{spellName}/abilityIcon.png")
 	@JsonProperty("abilityIconPath")
 	private String abilityIconPath;
+	@Downloadable(filePath = "/{championName}/skins/{spellName}/abilityVideo.png")
 	@JsonProperty("abilityVideoPath")
 	private String abilityVideoPath;
+	@Downloadable(filePath = "/{championName}/skins/{spellName}/abilityVideoImage.png")
 	@JsonProperty("abilityVideoImagePath")
 	private String abilityVideoImagePath;
 	@JsonProperty("description")

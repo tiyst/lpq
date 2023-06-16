@@ -4,6 +4,7 @@ package st.tiy.lpq.model.remote.cdragon.champion;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
+import st.tiy.lpq.annotations.Downloadable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,39 +34,43 @@ import java.util.Map;
 public class CdragonChampion {
 
 	@JsonProperty("id")
-	private Integer id;
+	public Integer id;
 	@JsonProperty("name")
-	private String name;
+	public String name;
 	@JsonProperty("alias")
-	private String alias;
+	public String alias;
 	@JsonProperty("title")
-	private String title;
+	public String title;
 
 	@JsonProperty("shortBio")
-	private String shortBio;
+	public String shortBio;
 	@JsonProperty("tacticalInfo")
-	private CdragonTacticalInfo tacticalInfo;
+	public CdragonTacticalInfo tacticalInfo;
 	@JsonProperty("playstyleInfo")
-	private CdragonPlaystyleInfo playstyleInfo;
+	public CdragonPlaystyleInfo playstyleInfo;
+	@Downloadable(filePath = "/{championName}/squarePortrait.png")
 	@JsonProperty("squarePortraitPath")
-	private String squarePortraitPath;
+	public String squarePortraitPath;
+	@Downloadable(filePath = "/{championName}/stingerSfx.ogg")
 	@JsonProperty("stingerSfxPath")
-	private String stingerSfxPath;
+	public String stingerSfxPath;
+	@Downloadable(filePath = "/{championName}/chooseVo.ogg")
 	@JsonProperty("chooseVoPath")
-	private String chooseVoPath;
+	public String chooseVoPath;
+	@Downloadable(filePath = "/{championName}/banVo.ogg")
 	@JsonProperty("banVoPath")
-	private String banVoPath;
+	public String banVoPath;
 	@JsonProperty("roles")
-	private List<String> roles;
+	public List<String> roles;
 	@JsonProperty("skins")
-	private List<CdragonSkin> cdragonSkins;
+	public List<CdragonSkin> cdragonSkins;
 	@JsonProperty("passive")
-	private CdragonPassive cdragonPassive;
+	public CdragonPassive cdragonPassive;
 	@JsonProperty("spells")
-	private List<CdragonSpell> cdragonSpells;
+	public List<CdragonSpell> cdragonSpells;
 	@JsonIgnore
 	@Builder.Default
-	private Map<String, Object> additionalProperties = new LinkedHashMap<>();
+	public Map<String, Object> additionalProperties = new LinkedHashMap<>();
 
 	@JsonProperty("id")
 	public Integer getId() {
