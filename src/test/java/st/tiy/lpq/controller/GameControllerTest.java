@@ -12,10 +12,9 @@ import st.tiy.lpq.model.game.GuessType;
 import st.tiy.lpq.service.GameService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static st.tiy.lpq.model.game.GameType.GUESS_SKIN;
+import static st.tiy.lpq.model.game.GuessType.ICON;
 
 @ExtendWith(SpringExtension.class)
 class GameControllerTest {
@@ -34,12 +33,13 @@ class GameControllerTest {
 
 	@Test
 	void createParametrizedGame() {
-		when(gameService.addGame(any(String.class), eq(GameType.GUESS_SKIN), eq(GuessType.ICON)))
-				.thenReturn(buildGame(GameType.GUESS_SKIN, GuessType.ICON));
-		Game game = gameController.createGame(new MockHttpServletRequest(), GameType.GUESS_SKIN, GuessType.ICON).getBody();
+		when(gameService.addGame(GUESS_SKIN, ICON)).thenReturn(buildGame(GUESS_SKIN, ICON));
 
-		assertThat(game.getGameType()).isEqualTo(GameType.GUESS_SKIN);
-		assertThat(game.getGuessType()).isEqualTo(GuessType.ICON);
+		Game game = gameController.createGame(new MockHttpServletRequest(), GUESS_SKIN, ICON).getBody();
+
+		verify(gameService).addGame(GUESS_SKIN, ICON);
+		assertThat(game).extracting(Game::getGameType, Game::getGuessType)
+						.containsExactly(GUESS_SKIN, ICON);
 	}
 
 	static Game buildGame(GameType gameType, GuessType guessType) {

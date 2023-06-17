@@ -4,9 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import st.tiy.lpq.model.game.Game;
@@ -34,19 +34,31 @@ public class GameController {
 
 	@PostMapping(path = "/create/{gameType}/{guessType}")
 	public ResponseEntity<Game> createGame(HttpServletRequest request, @PathVariable GameType gameType, @PathVariable GuessType guessType) {
-		Game game = gameService.addGame(getSessionId(request), gameType, guessType);
+		Game game = gameService.addGame(gameType, guessType);
 
 		return ResponseEntity.ok(game);
 	}
 
-	@MessageMapping("/lpq")
-	@SendTo("/topic/game")
-	public Game connectToGame(@Payload String game) {
+//	@MessageMapping("/lpq")
+//	@SendTo("/lpq/game")
+	public Game connectToGame(@Payload String gameCode) {
 //		Game game = gameService.getGame(gameCode);
-		Game gam = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
-//		log.info("/topic/game-progress/" + game.getGameCode(), game);
-		simp.convertAndSend("/topic/game-progress/" + game, game);
-		return gam;
+		Game game = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
+//		log.info("/topic/gameCode-progress/" + gameCode.getGameCode(), gameCode);
+		simp.convertAndSend("/lpq/game/", gameCode);
+		simp.convertAndSend("/lpq/game/" + gameCode, gameCode);
+		return game;
+	}
+
+	@MessageMapping("/lpq/{gameCode}")
+//	@SendTo("/lpq/game")
+	public Game sendMessage(@DestinationVariable String gameCode, String message) {
+//		Game game = gameService.getGame(gameCode);
+		Game game = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
+
+//		simp.convertAndSend("/lpq/game/", gameCode);
+//		simp.convertAndSend("/lpq/game/" + gameCode, message);
+		return game;
 	}
 
 	@GetMapping(path = "/open")
@@ -68,10 +80,10 @@ public class GameController {
 		return ResponseEntity.ok(guessTypes);
 	}
 
-	public ResponseEntity<Game> getGame(HttpServletRequest request) {
-		Game game = gameService.getGame(getSessionId(request));
-		return ResponseEntity.ok(game);
-	}
+//	public ResponseEntity<Game> getGame(HttpServletRequest request) {
+//		Game game = gameService.getGame(getSessionId(request));
+//		return ResponseEntity.ok(game);
+//	}
 
 	private static String getSessionId(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
