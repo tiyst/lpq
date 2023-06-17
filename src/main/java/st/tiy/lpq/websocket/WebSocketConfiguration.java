@@ -1,4 +1,4 @@
-package st.tiy.lpq.websocket.bober;
+package st.tiy.lpq.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import st.tiy.lpq.model.game.Game;
@@ -39,25 +39,14 @@ public class GameController {
 		return ResponseEntity.ok(game);
 	}
 
-//	@MessageMapping("/lpq")
-//	@SendTo("/lpq/game")
-	public Game connectToGame(@Payload String gameCode) {
-//		Game game = gameService.getGame(gameCode);
-		Game game = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
-//		log.info("/topic/gameCode-progress/" + gameCode.getGameCode(), gameCode);
-		simp.convertAndSend("/lpq/game/", gameCode);
-		simp.convertAndSend("/lpq/game/" + gameCode, gameCode);
-		return game;
-	}
-
 	@MessageMapping("/lpq/{gameCode}")
-//	@SendTo("/lpq/game")
+	@SendTo("/lpq/game/{gameCode}")
 	public Game sendMessage(@DestinationVariable String gameCode, String message) {
 //		Game game = gameService.getGame(gameCode);
 		Game game = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
 
 //		simp.convertAndSend("/lpq/game/", gameCode);
-//		simp.convertAndSend("/lpq/game/" + gameCode, message);
+//		simp.convertAndSend("/app/game/" + gameCode, message);
 		return game;
 	}
 

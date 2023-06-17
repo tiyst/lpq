@@ -18,7 +18,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/lpq/1q23', function (greeting) {
+        stompClient.subscribe('/lpq/game/1q23', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });
