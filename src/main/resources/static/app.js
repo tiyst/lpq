@@ -25,7 +25,7 @@ function initWebsocketClient() {
 		console.log("Destination is: " + destination);
 		client.subscribe(destination, (message) => {
 			console.log(destination)
-			showGreeting(JSON.parse(message.body).content)
+			showGreeting(JSON.stringify(message.body))
 			message.ack();
 		});
 
@@ -76,7 +76,6 @@ function sendMessage() {
 }
 
 function showGreeting(message) {
-	console.log("Received response: " + message)
 	$("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
