@@ -14,25 +14,23 @@ function setConnected(connected) {
 	$("#greetings").html("");
 }
 
-function connect() {
-	if (gameCode == null || gameCode === "") {
-		return;
-	}
-
+function initWebsocketClient() {
 	client = new StompJs.Client({
 		brokerURL: 'ws://localhost:8080/lpqws'
 	});
 
+	let destination = '/lpq/game/' + gameCode;
 	client.onConnect = () => {
 		setConnected(true);
-		let destination = "/app/lpq/" + gameCode;
-		console.log("Connected to server with game code: " + gameCode)
+		console.log("Destination is: " + destination);
 		client.subscribe(destination, (message) => {
+			console.log(destination)
 			showGreeting(JSON.parse(message.body).content)
-		}
-		);
+			message.ack();
+		});
 
 		let connect = "/app/lpq/connect";
+		console.log("Connected to server with game code: " + gameCode)
 		client.publish({
 			destination: connect,
 			body: JSON.stringify({
@@ -46,6 +44,14 @@ function connect() {
 		console.error('Error with websocket', error);
 	};
 
+	console.log(client)
+}
+
+function connect() {
+	if (gameCode == null || gameCode === "") {
+		return;
+	}
+	initWebsocketClient();
 	client.activate();
 }
 
@@ -70,8 +76,7 @@ function sendMessage() {
 }
 
 function showGreeting(message) {
-	console.log("Received response: ")
-	console.log(JSON.parse(message.body))
+	console.log("Received response: " + message)
 	$("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
