@@ -1,18 +1,16 @@
 package st.tiy.lpq.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import st.tiy.lpq.model.game.Game;
 import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
-import st.tiy.lpq.service.GameService;
+import st.tiy.lpq.service.game.GameService;
+import st.tiy.lpq.websocket.raw.ConnectToGameMessage;
+import st.tiy.lpq.websocket.raw.InputGameMessage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,22 +29,31 @@ public class GameController {
 		this.simp = simp;
 	}
 
-
 	@PostMapping(path = "/create/{gameType}/{guessType}")
-	public ResponseEntity<Game> createGame(HttpServletRequest request, @PathVariable GameType gameType, @PathVariable GuessType guessType) {
+	public ResponseEntity<Game> createGame(@PathVariable GameType gameType, @PathVariable GuessType guessType) {
 		Game game = gameService.addGame(gameType, guessType);
 
 		return ResponseEntity.ok(game);
 	}
 
+	@MessageMapping("/lpq/connect")
+	public Game connectToGame(@Payload ConnectToGameMessage connectMessage,
+	                          @Header("simpSessionId") String sessionId) {
+		return gameService.connectToGame(connectMessage.gameCode(),
+		                                 connectMessage.userName(),
+		                                 sessionId);
+	}
+
 	@MessageMapping("/lpq/{gameCode}")
 	@SendTo("/lpq/game/{gameCode}")
-	public Game sendMessage(@DestinationVariable String gameCode, String message) {
-//		Game game = gameService.getGame(gameCode);
-		Game game = new Game(GameType.GUESS_CHAMPION, GuessType.SPLASH);
+	public Game sendMessage(@DestinationVariable String gameCode,
+	                        @Payload InputGameMessage message,
+							@Header("simpSessionId") String sessionId) {
+		Game game = gameService.getGame(gameCode);
 
-//		simp.convertAndSend("/lpq/game/", gameCode);
-//		simp.convertAndSend("/app/game/" + gameCode, message);
+		log.info("Message: {}", message.toString());
+		log.info("Session ID: {}", sessionId);
+
 		return game;
 	}
 
@@ -68,16 +75,4 @@ public class GameController {
 		List<GuessType> guessTypes = Arrays.stream(GuessType.values()).toList();
 		return ResponseEntity.ok(guessTypes);
 	}
-
-//	public ResponseEntity<Game> getGame(HttpServletRequest request) {
-//		Game game = gameService.getGame(getSessionId(request));
-//		return ResponseEntity.ok(game);
-//	}
-
-	private static String getSessionId(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-
-		return session.getId();
-	}
-
 }

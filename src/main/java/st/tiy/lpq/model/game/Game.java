@@ -1,40 +1,44 @@
 package st.tiy.lpq.model.game;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Game {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String gameCode;
-	private boolean isPrivate;
+	private boolean isPublic;
 
 	private GameType gameType;
 	private GuessType guessType;
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+	private List<String> playerIds;
 
-	public Game() {
-
-	}
+	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Player> players;
 
 	public Game(GameType gameType, GuessType guessType) {
 		this.gameType = gameType;
 		this.guessType = guessType;
-		this.gameCode = generateUniqueGameCode();
-		this.isPrivate = false;
+		this.isPublic = true;
+		this.playerIds = new ArrayList<>();
+		this.players = new ArrayList<>();
 	}
 
-	private static String generateUniqueGameCode() {
-		return UUID.randomUUID().toString();
+	public boolean addPlayer(Player player) {
+		this.playerIds.add(player.getSessionId());
+		return this.players.add(player);
 	}
 
 }

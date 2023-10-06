@@ -4,12 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import st.tiy.lpq.model.game.Game;
 import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
-import st.tiy.lpq.service.GameService;
+import st.tiy.lpq.service.game.GameService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -35,7 +34,7 @@ class GameControllerTest {
 	void createParametrizedGame() {
 		when(gameService.addGame(GUESS_SKIN, ICON)).thenReturn(buildGame(GUESS_SKIN, ICON));
 
-		Game game = gameController.createGame(new MockHttpServletRequest(), GUESS_SKIN, ICON).getBody();
+		Game game = gameController.createGame(GUESS_SKIN, ICON).getBody();
 
 		verify(gameService).addGame(GUESS_SKIN, ICON);
 		assertThat(game).extracting(Game::getGameType, Game::getGuessType)
