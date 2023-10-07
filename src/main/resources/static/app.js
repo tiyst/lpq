@@ -22,9 +22,7 @@ function initWebsocketClient() {
 	let destination = '/lpq/game/' + gameCode;
 	client.onConnect = () => {
 		setConnected(true);
-		console.log("Destination is: " + destination);
 		client.subscribe(destination, (message) => {
-			console.log(destination)
 			showGreeting(JSON.stringify(message.body))
 			message.ack();
 		});
@@ -43,8 +41,6 @@ function initWebsocketClient() {
 	client.onWebSocketError = (error) => {
 		console.error('Error with websocket', error);
 	};
-
-	console.log(client)
 }
 
 function connect() {
@@ -65,7 +61,6 @@ function disconnect() {
 
 function sendMessage() {
 	let destination = "/app/lpq/" + gameCode;
-	console.log("calling " + destination)
 	client.publish({
 		destination: destination,
 		body: JSON.stringify({
