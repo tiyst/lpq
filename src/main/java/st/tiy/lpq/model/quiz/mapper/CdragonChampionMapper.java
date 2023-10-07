@@ -16,12 +16,15 @@ public interface CdragonChampionMapper {
 	@Mapping(source = "shortBio", target = "lore")
 	@Mapping(source = "cdragonPassive", target = "passive")
 	@Mapping(source = ".", target = "spells")
+	@Mapping(target = "resource", ignore = true)
 	Champion toChampion(CdragonChampion cdragonChampion);
 
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "champion", ignore = true)
 	PlaystyleInfo toPlaystyleInfo(CdragonPlaystyleInfo cdragonPlaystyleInfo);
 
 	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "champion", ignore = true)
 	TacticalInfo toTacticalInfo(CdragonTacticalInfo cdragonTacticalInfo);
 
 }

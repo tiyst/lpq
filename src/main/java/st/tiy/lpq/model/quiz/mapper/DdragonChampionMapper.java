@@ -13,6 +13,8 @@ public interface DdragonChampionMapper {
 	@Mapping(source = "key", target = "riotId")
 	@Mapping(source = "tags", target = "roles")
 	@Mapping(source = "partype", target = "resource")
+	@Mapping(target = "tacticalInfo", ignore = true)
+	@Mapping(target = "playstyleInfo", ignore = true)
 	Champion mapChampion(RiotChampion riotChampion);
 
 }

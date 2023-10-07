@@ -1,7 +1,6 @@
 package st.tiy.lpq.service.remote;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import st.tiy.lpq.model.quiz.Champion;
@@ -10,9 +9,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+@Log4j2
 public abstract class RemoteDataService {
-
-	private final Logger logger = LoggerFactory.getLogger(RemoteDataService.class);
 
 	private final RestTemplate restTemplate;
 
@@ -31,13 +29,13 @@ public abstract class RemoteDataService {
  		ResponseEntity<T> response = restTemplate.getForEntity(uri, clazz);
 
 		if (!response.getStatusCode().is2xxSuccessful()) {
-			logger.error("retrieval for url:{}, returned code {}",url, response.getStatusCode().value());
+			log.error("retrieval for url:{}, returned code {}",url, response.getStatusCode().value());
 			return Optional.empty();
 		}
 
 		T body = response.getBody();
 		if (body == null) {
-			logger.error("Response body is empty for url:{}", url);
+			log.error("Response body is empty for url:{}", url);
 			return Optional.empty();
 		}
 

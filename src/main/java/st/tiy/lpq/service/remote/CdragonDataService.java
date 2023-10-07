@@ -11,7 +11,6 @@ import st.tiy.lpq.model.remote.cdragon.champion.ChampionSummary;
 import st.tiy.lpq.repository.remote.CdragonVersionRepository;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +44,7 @@ public class CdragonDataService extends RemoteDataService {
 
 	@Override
 	public boolean shouldUpdate() {
-		// TODO: 6/6/2023 Cdragon model versioning
+		// TODO: 7/10/2023 implement Cdragon model versioning
 		return true;
 	}
 
@@ -64,7 +63,9 @@ public class CdragonDataService extends RemoteDataService {
 		String url = baseUrl + championSummaryUrl;
 		Optional<ChampionSummary[]> result = getForClass(url, ChampionSummary[].class);
 
-		return result.map(Arrays::asList).orElse(Collections.emptyList());
+		return Arrays.stream(result.orElseGet(() -> new ChampionSummary[0]))
+		             .filter(summary -> summary.getId() > 0)
+		             .toList();
 	}
 
 	public Optional<CdragonChampion> getChampion(String championId) {
@@ -85,7 +86,8 @@ public class CdragonDataService extends RemoteDataService {
 
 	private String concatPath(String basePath, String append, String... values) {
 		String format = basePath + append;
-		String formatted = String.format(format, values);
+		String formatted = String.format(format, (Object[]) values);
+
 		return normalizePath(formatted);
 	}
 

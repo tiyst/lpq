@@ -11,6 +11,7 @@ import st.tiy.lpq.model.remote.riot.champion.DdragonSpell;
 public interface DdragonSpellMapper {
 
 	@Mapping(target = "champion", ignore = true)
+	@Mapping(target = "spellKey", ignore = true)
 	Spell mapToSpell(DdragonSpell ddragonSpell);
 
 	@Mapping(target = "id", ignore = true)
