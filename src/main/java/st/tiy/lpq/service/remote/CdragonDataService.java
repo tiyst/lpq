@@ -30,7 +30,7 @@ public class CdragonDataService extends RemoteDataService {
 
 	public CdragonDataService(RestTemplate restTemplate,
 	                          CdragonChampionMapper mapper,
-							  CdragonVersionRepository versionRepository,
+	                          CdragonVersionRepository versionRepository,
 	                          @Value("${riot.cdragon.baseUrl}") String baseUrl,
 	                          @Value("${riot.cdragon.championSummary}") String championSummaryUrl,
 	                          @Value("${riot.cdragon.champion}") String championUrl) {
