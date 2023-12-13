@@ -23,7 +23,6 @@ public class GameController {
 	private final GameService gameService;
 	private final SimpMessagingTemplate simp;
 
-
 	public GameController(GameService gameService, SimpMessagingTemplate simp) {
 		this.gameService = gameService;
 		this.simp = simp;

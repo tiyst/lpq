@@ -1,1 +1,4 @@
 rootProject.name = 'lpq'
+include 'lpq-backend'
+include 'lpq-frontend'
+

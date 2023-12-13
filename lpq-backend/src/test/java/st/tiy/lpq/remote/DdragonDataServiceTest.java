@@ -1,4 +1,4 @@
-package st.tiy.lpq.service.remote;
+package st.tiy.lpq.remote;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import st.tiy.lpq.model.quiz.mapper.DdragonChampionMapper;
 import st.tiy.lpq.model.remote.riot.champion.RiotChampion;
 import st.tiy.lpq.model.remote.riot.champion.champions.GetChampionsResponse;
 import st.tiy.lpq.repository.remote.DdragonVersionRepository;
+import st.tiy.lpq.service.remote.DdragonDataService;
 
 import java.net.URI;
 import java.util.List;
