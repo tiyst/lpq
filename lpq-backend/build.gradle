@@ -4,10 +4,6 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'st.tiy'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -55,4 +51,19 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+//Mandatory for main project gradle to be able to detect and build this module
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

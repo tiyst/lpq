@@ -1,58 +1,15 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.2'
-	id 'io.spring.dependency-management' version '1.1.0'
 }
 
-group = 'st.tiy'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+allprojects {
+	group = 'st.tiy'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '17'
+}
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+subprojects {
+	repositories {
+		mavenCentral()
 	}
-}
-
-repositories {
-	mavenCentral()
-}
-
-ext {
-	mapstructVersion = "1.5.5.Final"
-	lombokVersion = "1.18.26"
-	lombokMapstructBindingVersion = "0.2.0"
-	mockitoVersion = "2.1.0"
-	apacheCommonsCollectionsVersion = "4.4"
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
-	implementation "org.apache.commons:commons-collections4:${apacheCommonsCollectionsVersion}"
-	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
-
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-
-	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
-
-	testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	// dev only local environment dependencies
-	compileOnly 'org.webjars.npm:stomp__stompjs:7.0.0'
-	compileOnly 'org.webjars:webjars-locator-core'
-	compileOnly 'org.webjars:sockjs-client:1.0.2'
-	compileOnly 'org.webjars:bootstrap:3.4.0'
-	compileOnly 'org.webjars:jquery:3.7.1'
-	compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }
