@@ -1,4 +1,4 @@
-package st.tiy.lpq.model.quiz.mapper;
+package st.tiy.lpq.mapper;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,6 +8,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import st.tiy.lpq.model.quiz.Champion;
 import st.tiy.lpq.model.quiz.PlaystyleInfo;
 import st.tiy.lpq.model.quiz.TacticalInfo;
+import st.tiy.lpq.model.quiz.mapper.CdragonChampionMapper;
+import st.tiy.lpq.model.quiz.mapper.CdragonChampionMapperImpl;
+import st.tiy.lpq.model.quiz.mapper.CdragonSkinMapperImpl;
+import st.tiy.lpq.model.quiz.mapper.CdragonSpellMapperImpl;
 import st.tiy.lpq.model.remote.cdragon.champion.*;
 
 import java.util.List;
