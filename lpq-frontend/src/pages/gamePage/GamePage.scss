@@ -1,0 +1,44 @@
+@import '../../pages/common/LpqPalette';
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	body {
+		height: 100%;
+	}
+	height: 100%;
+	padding: 1rem;
+	margin: 0;
+}
+
+#root {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.game-screen-wrapper {
+	display: flex;
+	flex: 1;
+
+	.right-bar {
+		width: 30%;
+		min-width: 30%;
+		padding: 0.5rem;
+		text-align: center;
+		margin-left: 0.5rem;
+		background-color: $primary;
+		color: $text;
+	}
+
+	.left-part {
+		text-align: center;
+		margin-right: 0.5rem;
+		width: 100%;
+		padding: 0.5rem;
+		background-color: $primary;
+		color: $text;
+	}
+}

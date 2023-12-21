@@ -1,0 +1,17 @@
+@import '../../pages/common/LpqComponent';
+@import '../../pages/common/LpqPalette';
+
+.lpq-button {
+	@extend .lpq-component;
+	padding: 16px;
+	margin: 0.5rem 0 0.5rem 0;
+	cursor: pointer;
+	width: 100%;
+	box-shadow: 2px 3px lightblue;
+	background-color: $accent;
+}
+
+.lpq-button:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 20px -10px rgba(24, 90, 219, 0.6);
+}
