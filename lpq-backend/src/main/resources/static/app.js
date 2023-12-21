@@ -33,7 +33,7 @@ function initWebsocketClient() {
 			destination: connect,
 			body: JSON.stringify({
 				"gameCode": gameCode,
-				"userName": "defaultUserName"
+				"userName": "devTestPlayer"
 			})
 		});
 	}

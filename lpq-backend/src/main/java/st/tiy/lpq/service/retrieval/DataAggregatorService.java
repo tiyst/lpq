@@ -8,13 +8,13 @@ import st.tiy.lpq.service.remote.RemoteDataService;
 import java.util.List;
 
 @EnableScheduling
-public class QuizDataRetrievalService {
+public class DataAggregatorService {
 
 	private final List<RemoteDataService> remoteDataServices;
 
 	private final ChampionRepository championRepository;
 
-	public QuizDataRetrievalService(List<RemoteDataService> remoteDataServices, ChampionRepository championRepository) {
+	public DataAggregatorService(List<RemoteDataService> remoteDataServices, ChampionRepository championRepository) {
 		this.remoteDataServices = remoteDataServices;
 		this.championRepository = championRepository;
 	}

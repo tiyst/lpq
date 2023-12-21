@@ -19,7 +19,13 @@ const MainPage = () => {
 				<LpqButton description="Find a game" />
 				<LpqButton description="Play alone" callback={() => navigate("/game")} />
 			</div>
-			{showJoinGamePrompt && <Modal title="Join a game" subtitle="Insert game code" handleClose={() => setShowJoinGamePrompt(false)}/>}
+			{showJoinGamePrompt && (
+				<Modal
+					title="Join a game"
+					subtitle="Insert game code"
+					handleClose={() => setShowJoinGamePrompt(false)}
+				/>
+			)}
 		</div>
 	);
 };
