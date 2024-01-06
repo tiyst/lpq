@@ -1,19 +1,25 @@
 package st.tiy.lpq.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import st.tiy.lpq.model.game.Game;
 import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
 import st.tiy.lpq.service.game.GameService;
-import st.tiy.lpq.websocket.raw.ConnectToGameMessage;
-import st.tiy.lpq.websocket.raw.InputGameMessage;
+import st.tiy.lpq.websocket.message.input.InputGameMessage;
+import st.tiy.lpq.websocket.message.output.PlayerConnectionMessage;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import static st.tiy.lpq.websocket.message.output.PlayerConnectionMessage.ConnectionType.CONNECTED;
+import static st.tiy.lpq.websocket.message.output.PlayerConnectionMessage.ConnectionType.DISCONNECTED;
 
 @RestController
 @RequestMapping(path = "/game")
@@ -35,18 +41,20 @@ public class GameController {
 		return ResponseEntity.ok(game);
 	}
 
-	@MessageMapping("/lpq/connect")
-	public Game connectToGame(@Payload ConnectToGameMessage connectMessage,
-	                          @Header("simpSessionId") String sessionId) {
-		return gameService.connectToGame(connectMessage.gameCode(),
-		                                 connectMessage.userName(),
-		                                 sessionId);
+	@MessageMapping("/lpq/connect/{gameCode}")
+	@SendTo("/lpq/game/{gameCode}/players")
+	public PlayerConnectionMessage connectToGame(@DestinationVariable String gameCode,
+												 @Payload String userName,
+												 @Header("simpSessionId") String sessionId) {
+		Game game = gameService.connectToGame(gameCode, userName, sessionId);
+
+		return new PlayerConnectionMessage(CONNECTED, sessionId, userName, game.getPlayers());
 	}
 
 	@MessageMapping("/lpq/{gameCode}")
 	@SendTo("/lpq/game/{gameCode}")
 	public Game sendMessage(@DestinationVariable String gameCode,
-	                        @Payload InputGameMessage message,
+							@Payload InputGameMessage message,
 							@Header("simpSessionId") String sessionId) {
 		Game game = gameService.getGame(gameCode);
 
@@ -73,5 +81,15 @@ public class GameController {
 	public ResponseEntity<List<GuessType>> getGuessTypes() {
 		List<GuessType> guessTypes = Arrays.stream(GuessType.values()).toList();
 		return ResponseEntity.ok(guessTypes);
+	}
+
+	@EventListener
+	public void onDisconnect(SessionDisconnectEvent event) {
+		String sessionId = event.getSessionId();
+		log.info("Session {} disconnected", sessionId);
+
+		Optional<Game> game = gameService.disconnectPlayerBySessionId(sessionId);
+		game.ifPresent(value -> this.simp.convertAndSend("/lpq/game/" + value.getGameCode() + "/players",
+				new PlayerConnectionMessage(DISCONNECTED, sessionId, "", game.get().getPlayers())));
 	}
 }

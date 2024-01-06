@@ -27,14 +27,11 @@ function initWebsocketClient() {
 			message.ack();
 		});
 
-		let connect = "/app/lpq/connect";
+		let connect = "/app/lpq/connect/" + gameCode;
 		console.log("Connected to server with game code: " + gameCode)
 		client.publish({
 			destination: connect,
-			body: JSON.stringify({
-				"gameCode": gameCode,
-				"userName": "devTestPlayer"
-			})
+			body: "devTestPlayer"
 		});
 	}
 

@@ -41,4 +41,10 @@ public class Game {
 		return this.players.add(player);
 	}
 
+	public void removePlayerBySessionId(String sessionId) {
+		if (playerIds.contains(sessionId)) {
+			playerIds.remove(sessionId);
+			players.removeIf(player -> player.getSessionId().equals(sessionId));
+		}
+	}
 }

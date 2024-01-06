@@ -1,4 +1,4 @@
-package st.tiy.lpq.websocket.raw;
+package st.tiy.lpq.websocket.message.input;
 
 import lombok.Builder;
 

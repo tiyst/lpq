@@ -1,10 +1,8 @@
 package st.tiy.lpq.service.game;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import st.tiy.lpq.exception.GameDoesntExistException;
 import st.tiy.lpq.model.game.Game;
 import st.tiy.lpq.model.game.GameType;
 import st.tiy.lpq.model.game.GuessType;
@@ -31,6 +29,10 @@ public class GameService {
 	public Game connectToGame(String gameId, String playerName, String playerSessionId) {
 		Game game = gameRepository.findByGameCode(gameId);
 
+		if (game == null) {
+			throw new GameDoesntExistException(String.format("Game with ID %s doesn't exist", gameId));
+		}
+
 		Player player = new Player(playerSessionId, playerName, game);
 		game.addPlayer(player);
 
@@ -45,28 +47,33 @@ public class GameService {
 		return this.gameRepository.findByIsPublicIsTrue();
 	}
 
-	@EventListener
-	public void onDisconnect(SessionDisconnectEvent event) {
-		log.info("Session {} disconnected", event.getSessionId());
+	public Optional<Game> disconnectPlayerBySessionId(String sessionId) {
+		Optional<Game> optionalGame = gameRepository.findByPlayerIdsContaining(sessionId);
 
-		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-		String playerId = headerAccessor.getSessionId();
-		Optional<Game> game = gameRepository.findByPlayerIdsContaining(playerId);
-		if (game.isPresent()) {
-			Game game1 = game.get();
-			List<String> playerIds = game1.getPlayerIds();
-			playerIds.remove(playerId);
-			if (game1.getPlayers().isEmpty()) {
-				log.info("Deleting game {}", game1);
-				gameRepository.delete(game1);
-				return;
-			}
-			gameRepository.save(game1);
+		if (optionalGame.isEmpty()) {
+			return Optional.empty();
 		}
+
+		Game game = optionalGame.get();
+		game.removePlayerBySessionId(sessionId);
+
+		if (game.getPlayerIds().isEmpty()) {
+			log.info("Deleting game {}", game.getGameCode());
+			gameRepository.delete(game);
+		} else {
+			gameRepository.saveAndFlush(game);
+		}
+		return optionalGame;
 	}
 
 	public void restartRound(Game game) {
 		game.getPlayers().forEach(player -> player.setAnsweredCorrectly(false));
+	}
+	
+	public void startRound(Game game) {
+		// TODO: 27/12/2023 return unix timestamp when round ends
+		// TODO: 27/12/2023 game round timer 
+		// TODO: 27/12/2023 game round shortening after guessing correctly (time adjustment 
 	}
 
 }
