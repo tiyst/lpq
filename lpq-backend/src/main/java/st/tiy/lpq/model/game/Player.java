@@ -1,10 +1,7 @@
 package st.tiy.lpq.model.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +22,7 @@ public class Player {
 	@Setter
 	private boolean answeredCorrectly;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Game game;
 

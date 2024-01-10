@@ -1,7 +1,7 @@
 import "./Modal.scss";
 import LpqButton from "../button/LpqButton";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 export type ModalProps = {
 	title: string;
@@ -13,7 +13,7 @@ const Modal = (props: ModalProps) => {
 	const navigate = useNavigate();
 
 	const [gameCode, setGameCode] = useState("game-code");
-	const [gameName, setGameName] = useState("game-name");
+	const [playerName, setPlayerName] = useState("Player name");
 
 	const joinGame = (gameCode: string) => {
 		navigate(`/game/${gameCode}`);
@@ -26,7 +26,7 @@ const Modal = (props: ModalProps) => {
 					<div className="modal-title">{title}</div>
 					<div className="modal-subtitle">{subtitle}</div>
 					<input type="text" value={gameCode} onChange={e => setGameCode(e.target.value)} />
-					<input type="text" value={gameName} onChange={e => setGameName(e.target.value)} />
+					<input type="text" value={playerName} onChange={e => setPlayerName(e.target.value)} />
 					<LpqButton description="Close" callback={() => handleClose()} />
 					<LpqButton description="Join" callback={() => joinGame(gameCode)} />
 				</div>

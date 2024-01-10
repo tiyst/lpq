@@ -12,7 +12,7 @@ const MainPage = () => {
 
 	return (
 		<div className="App">
-			<LpqHeader />
+			<LpqHeader leftText="LPQ" />
 			<div className="button-group">
 				<LpqButton description="Create a game" />
 				<LpqButton description="Join a game" callback={() => setShowJoinGamePrompt(true)} />

@@ -23,26 +23,19 @@ const GamePage = () => {
 	useSubscription(`/lpq/game/${gameCode}`, message => {
 		console.log(message.body);
 		setMessages(messages.concat(message.body));
-		console.log(messages);
 	});
 
 	useSubscription(`/lpq/game/${gameCode}/players`, message => {
 		const connectedMessage: ConnectionMessage = JSON.parse(message.body);
 		console.log(connectedMessage);
-		console.log(players);
-		if (connectedMessage.type === "CONNECTED") {
-			setPlayers(connectedMessage.allPlayers);
-		} else {
-			console.log(connectedMessage.allPlayers);
-			setPlayers(players.filter(player => player.playerSessionId !== connectedMessage.playerSessionId));
-		}
-		console.log(players);
+		console.log(connectedMessage.allPlayers);
+		setPlayers(connectedMessage.allPlayers); //todo not working, casting to Players not working
 	});
 	// TODO create and manage websocket connection with backend (configurable with yaml file for dev environment mocks)
 
 	return (
 		<>
-			<LpqHeader />
+			<LpqHeader leftText={gameCode}/>
 			<div className="game-screen-wrapper">
 				<div className="left-part lpq-component">
 					<h1>{gameCode}</h1>
@@ -56,7 +49,7 @@ const GamePage = () => {
 					<h1>Right part</h1>
 					<ul>
 						{players.map(player => (
-							<span key={player.playerSessionId}> {player.playerName}</span>
+							<span key={player.playerSessionId}>{player.playerName}</span>
 						))}
 					</ul>
 				</div>

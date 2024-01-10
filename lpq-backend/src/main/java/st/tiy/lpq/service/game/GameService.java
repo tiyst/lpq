@@ -60,16 +60,17 @@ public class GameService {
 		if (game.getPlayerIds().isEmpty()) {
 			log.info("Deleting game {}", game.getGameCode());
 			gameRepository.delete(game);
-		} else {
-			gameRepository.saveAndFlush(game);
+			return Optional.empty();
 		}
-		return optionalGame;
+		
+		game = gameRepository.saveAndFlush(game);
+		return Optional.of(game);
 	}
 
 	public void restartRound(Game game) {
 		game.getPlayers().forEach(player -> player.setAnsweredCorrectly(false));
 	}
-	
+
 	public void startRound(Game game) {
 		// TODO: 27/12/2023 return unix timestamp when round ends
 		// TODO: 27/12/2023 game round timer 

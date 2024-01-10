@@ -7,7 +7,7 @@ const GamePageWrapper = () => {
 
 	return (
 		<StompSessionProvider url={"ws://localhost:8080/lpqws"}>
-				<GamePage gameCode={gameCode} />
+				<GamePage />
 		</StompSessionProvider>
 	);
 };
