@@ -6,6 +6,8 @@ export type ConnectionMessage = {
 };
 
 export type Player = {
-	playerName: string;
-	playerSessionId: string;
+	answeredCorrectly: boolean;
+	name: string;
+	score: number;
+	sessionId: string;
 };

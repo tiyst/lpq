@@ -27,11 +27,12 @@ const GamePage = () => {
 
 	useSubscription(`/lpq/game/${gameCode}/players`, message => {
 		const connectedMessage: ConnectionMessage = JSON.parse(message.body);
-		console.log(connectedMessage);
-		console.log(connectedMessage.allPlayers);
-		setPlayers(connectedMessage.allPlayers); //todo not working, casting to Players not working
+		const parsedPlayers: Player[] = connectedMessage.allPlayers;
+		setPlayers(parsedPlayers);
+		setMessages(messages.concat(`${connectedMessage.playerName} has been ${connectedMessage.type}`));
 	});
-	// TODO create and manage websocket connection with backend (configurable with yaml file for dev environment mocks)
+	// TODO create and manage websocket connection with backend
+	// (configurable with yaml file for dev environment mocks)
 
 	return (
 		<>
@@ -49,7 +50,7 @@ const GamePage = () => {
 					<h1>Right part</h1>
 					<ul>
 						{players.map(player => (
-							<span key={player.playerSessionId}>{player.playerName}</span>
+							<li key={player.sessionId}>{player.name}</li>
 						))}
 					</ul>
 				</div>

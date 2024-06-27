@@ -22,8 +22,15 @@ function initWebsocketClient() {
 	let destination = '/lpq/game/' + gameCode;
 	client.onConnect = () => {
 		setConnected(true);
+
 		client.subscribe(destination, (message) => {
 			showGreeting(JSON.stringify(message.body))
+			message.ack();
+		});
+
+		const playerJoinEndpoint = '/lpq/game/' + gameCode + '/players';
+		client.subscribe(playerJoinEndpoint, (message) => {
+			showGreeting('player connected: ' + JSON.stringify(message.body))
 			message.ack();
 		});
 

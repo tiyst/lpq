@@ -5,6 +5,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import st.tiy.lpq.model.game.Game;
@@ -35,7 +36,8 @@ public class GameController {
 	}
 
 	@PostMapping(path = "/create/{gameType}/{guessType}")
-	public ResponseEntity<Game> createGame(@PathVariable GameType gameType, @PathVariable GuessType guessType) {
+	public ResponseEntity<Game> createGame(@PathVariable GameType gameType,
+	                                       @PathVariable GuessType guessType) {
 		Game game = gameService.addGame(gameType, guessType);
 
 		return ResponseEntity.ok(game);
@@ -83,6 +85,7 @@ public class GameController {
 		return ResponseEntity.ok(guessTypes);
 	}
 
+	@Async
 	@EventListener
 	public void onDisconnect(SessionDisconnectEvent event) {
 		String sessionId = event.getSessionId();

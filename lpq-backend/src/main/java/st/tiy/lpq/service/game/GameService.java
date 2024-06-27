@@ -9,6 +9,7 @@ import st.tiy.lpq.model.game.GuessType;
 import st.tiy.lpq.model.game.Player;
 import st.tiy.lpq.repository.GameRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,16 +63,18 @@ public class GameService {
 			gameRepository.delete(game);
 			return Optional.empty();
 		}
-		
+
 		game = gameRepository.saveAndFlush(game);
 		return Optional.of(game);
 	}
 
-	public void restartRound(Game game) {
+	public void startRound(Game game) {
 		game.getPlayers().forEach(player -> player.setAnsweredCorrectly(false));
 	}
 
-	public void startRound(Game game) {
+	public void startGame(String gameCode) {
+		Game game = gameRepository.findByGameCode(gameCode);
+		startRound(game);
 		// TODO: 27/12/2023 return unix timestamp when round ends
 		// TODO: 27/12/2023 game round timer 
 		// TODO: 27/12/2023 game round shortening after guessing correctly (time adjustment 
