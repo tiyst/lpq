@@ -58,12 +58,12 @@ public class Game {
 				.findFirst();
 
 		if (player.isPresent()) {
-			Player playerToRemove = player.get();
+			Player removedPlayer = player.get();
 
 			this.playerIds.remove(sessionId);
-			this.players.remove(playerToRemove);
+			this.players.remove(removedPlayer);
 
-			return Optional.of(playerToRemove);
+			return Optional.of(removedPlayer);
 		}
 
 		return Optional.empty();

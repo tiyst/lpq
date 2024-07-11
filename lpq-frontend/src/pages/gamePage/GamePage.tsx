@@ -5,10 +5,15 @@ import "./GamePage.scss";
 import "../common/LpqComponent.scss";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import { ConnectionMessage, Player } from "../../types/GameTypes";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const GamePage = () => {
+	const GAME_GET_URL = (gameCode: string | undefined) => `http://localhost:8080/game/${gameCode}/players`;
+
 	const [players, setPlayers] = useState<Player[]>([]);
 	const [messages, setMessages] = useState<string[]>([]);
+	const [joined, setJoined] = useState<boolean>(false);
 
 	const { gameCode } = useParams();
 	const client = useStompClient();
@@ -18,7 +23,22 @@ const GamePage = () => {
 			destination: `/app/lpq/connect/${gameCode}`,
 			body: "reactJsUser",
 		});
+
+		setJoined(true);
 	}, [client?.active]);
+
+	useEffect(() => {
+		const endpoint = GAME_GET_URL(gameCode);
+
+		console.log(endpoint)
+		fetch(endpoint)
+			.then(response => console.log(response.json()))
+
+		fetch(endpoint)
+			.then(response => response.json())
+			.then(players => setPlayers(players));
+	}, [joined]);
+
 
 	useSubscription(`/lpq/game/${gameCode}`, message => {
 		console.log(message.body);
@@ -27,10 +47,16 @@ const GamePage = () => {
 
 	useSubscription(`/lpq/game/${gameCode}/players`, message => {
 		const connectedMessage: ConnectionMessage = JSON.parse(message.body);
-		const parsedPlayers: Player[] = connectedMessage.allPlayers;
-		setPlayers(parsedPlayers);
-		setMessages(messages.concat(`${connectedMessage.playerName} has been ${connectedMessage.type}`));
+		console.log(connectedMessage);
+
+		if (connectedMessage.type == "DISCONNECTED") {
+			setPlayers(players.filter(p => p.sessionId !== connectedMessage.player.sessionId));
+		} else if (connectedMessage.type == "CONNECTED") {
+			setPlayers(players.concat(connectedMessage.player))
+		}
+		setMessages(messages.concat(`${connectedMessage.player.name} has ${connectedMessage.type}`));
 	});
+
 	// TODO create and manage websocket connection with backend
 	// (configurable with yaml file for dev environment mocks)
 

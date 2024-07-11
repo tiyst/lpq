@@ -4,6 +4,7 @@ import MainPage from "./pages/mainPage/MainPage";
 import Layout from "./Outlet";
 import GamePageWrapper from "./pages/gamePage/GamePageWrapper";
 
+
 export default function App() {
 	return (
 		// <StompProvider config={{ brokerURL: "ws://localhost:8080/lpqws" }}>

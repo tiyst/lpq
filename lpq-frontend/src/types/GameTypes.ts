@@ -1,8 +1,6 @@
 export type ConnectionMessage = {
 	type: string;
-	playerSessionId: string;
-	playerName: string;
-	allPlayers: Player[];
+	player: Player;
 };
 
 export type Player = {

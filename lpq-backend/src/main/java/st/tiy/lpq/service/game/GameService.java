@@ -9,7 +9,6 @@ import st.tiy.lpq.model.game.GuessType;
 import st.tiy.lpq.model.game.Player;
 import st.tiy.lpq.repository.GameRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +26,7 @@ public class GameService {
 		return gameRepository.save(new Game(gameType, guessType));
 	}
 
-	public Game connectToGame(String gameId, String playerName, String playerSessionId) {
+	public Player connectToGame(String gameId, String playerName, String playerSessionId) {
 		Game game = gameRepository.findByGameCode(gameId);
 
 		if (game == null) {
@@ -36,8 +35,9 @@ public class GameService {
 
 		Player player = new Player(playerSessionId, playerName, game);
 		game.addPlayer(player);
+		gameRepository.saveAndFlush(game);
 
-		return gameRepository.saveAndFlush(game);
+		return player;
 	}
 
 	public Game getGame(String gameCode) {
@@ -48,7 +48,7 @@ public class GameService {
 		return this.gameRepository.findByIsPublicIsTrue();
 	}
 
-	public Optional<Game> disconnectPlayerBySessionId(String sessionId) {
+	public Optional<Player> disconnectPlayerBySessionId(String sessionId) {
 		Optional<Game> optionalGame = gameRepository.findByPlayerIdsContaining(sessionId);
 
 		if (optionalGame.isEmpty()) {
@@ -56,16 +56,16 @@ public class GameService {
 		}
 
 		Game game = optionalGame.get();
-		game.removePlayerBySessionId(sessionId);
+		Optional<Player> removedPlayer = game.removePlayerBySessionId(sessionId);
 
 		if (game.getPlayerIds().isEmpty()) {
 			log.info("Deleting game {}", game.getGameCode());
 			gameRepository.delete(game);
-			return Optional.empty();
+		} else {
+			gameRepository.saveAndFlush(game);
 		}
 
-		game = gameRepository.saveAndFlush(game);
-		return Optional.of(game);
+		return removedPlayer;
 	}
 
 	public void startRound(Game game) {
@@ -77,7 +77,7 @@ public class GameService {
 		startRound(game);
 		// TODO: 27/12/2023 return unix timestamp when round ends
 		// TODO: 27/12/2023 game round timer 
-		// TODO: 27/12/2023 game round shortening after guessing correctly (time adjustment 
+		// TODO: 27/12/2023 game round shortening after guessing correctly (time adjustment)
 	}
 
 }
